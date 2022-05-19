@@ -5,7 +5,7 @@
     <router-link to="/ActivityCenter">活动中心</router-link>|
     <router-link to="/DocManage">文档管理</router-link>|
     <router-link to="/DocSale">文档出售明细</router-link>|
-    <router-link to="/UserMoney">收益体现</router-link>ss
+    <router-link to="/UserMoney">收益体现</router-link>
 
   </div>
   <router-view/>
