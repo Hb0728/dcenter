@@ -1,7 +1,11 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">首页</router-link> |
+    <router-link to="/about">数据概况</router-link>|
+    <router-link to="/ActivityCenter">活动中心</router-link>|
+    <router-link to="/DocManage">文档管理</router-link>|
+    <router-link to="/DocSale">文档出售明细</router-link>|
+    <router-link to="/UserMoney">收益体现</router-link>
   </div>
   <router-view/>
 </template>
