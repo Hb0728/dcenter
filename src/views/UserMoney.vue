@@ -1,6 +1,6 @@
 <template>
   <div class='UserMoney'>
-
+    <h1>这里是收益体现页面</h1>
   </div>
 </template>
 

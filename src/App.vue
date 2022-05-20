@@ -1,16 +1,23 @@
 <template>
-  <div id="nav">
-    <router-link to="/">首页</router-link> |
-    <router-link to="/about">数据概况</router-link>|
-    <router-link to="/ActivityCenter">活动中心</router-link>|
-    <router-link to="/DocManage">文档管理</router-link>|
-    <router-link to="/DocSale">文档出售明细</router-link>|
-    <router-link to="/UserMoney">收益体现</router-link>
-
+  <div id="nav" >
+    <el-row> 
+       <meau></meau>
+       <el-col :span="20" class="meau-right">
+       
+          <router-view/>
+       </el-col> 
+    </el-row>   
   </div>
-  <router-view/>
+  
 </template>
-
+<script>
+import meau from './components/meau'
+export default {
+  components:{
+    meau
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -19,14 +26,15 @@
   text-align: center;
   color: #2c3e50;
 }
-
-#nav {
-  padding: 30px;
+body{
+  margin: 0;
 }
-
+.meau-right{
+      min-height: 935px;
+}
 #nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  color: white;
+  text-decoration: none;
 }
 
 #nav a.router-link-exact-active {

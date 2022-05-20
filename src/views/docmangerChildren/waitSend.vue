@@ -1,6 +1,6 @@
 <template>
-  <div class='Activitycenter'>
-    <h1>这里是活动中心页面</h1>
+  <div class='waitsend'>
+      <h1>这里是待发布页面</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 //import
 
   export default {
-    name :'Activitycenter',
+    name :'waitsend',
     components: {
       
     },

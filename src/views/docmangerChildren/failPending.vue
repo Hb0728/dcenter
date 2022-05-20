@@ -1,6 +1,6 @@
 <template>
-  <div class='Activitycenter'>
-    <h1>这里是活动中心页面</h1>
+  <div class='failPending'>
+      <h1>这里是审核失败页面</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 //import
 
   export default {
-    name :'Activitycenter',
+    name :'failPending',
     components: {
       
     },

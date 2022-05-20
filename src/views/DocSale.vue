@@ -1,6 +1,6 @@
 <template>
   <div class='DocSale'>
-
+    <h1>这里是文档出售明细页面</h1>
   </div>
 </template>
 

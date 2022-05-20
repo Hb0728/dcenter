@@ -1,19 +1,24 @@
 <template>
-  <div class='DocManage'>
-
+  <div class="docmanage">
+    <h1>这里是文档管理页面</h1>
+    <router-view/>
   </div>
+  
 </template>
 
 <script>
-//import
+import {
+  Check,
+
+} from '@element-plus/icons-vue'
 
   export default {
     name :'DocManage',
     components: {
-      
     },
     data() {
       return {
+        check: Check
         
       };
     },

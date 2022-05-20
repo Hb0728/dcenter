@@ -5,6 +5,12 @@ import ActivityCenter from '../views/ActivityCenter.vue'
 import DocManage from '../views/DocManage.vue'
 import DocSale from '../views/DocSale.vue'
 import UserMoney from '../views/UserMoney.vue'
+import sendsuccess from '../views/docmangerChildren/sendSuccess.vue'
+import failPending from '../views/docmangerChildren/failPending.vue'
+import recycleStation from '../views/docmangerChildren/recycleStation.vue'
+import failchange from '../views/docmangerChildren/failchange.vue'
+import waitPending from '../views/docmangerChildren/waitPending.vue'
+import waitSend from '../views/docmangerChildren/waitSend.vue'
 
 
 const routes = [
@@ -30,12 +36,29 @@ const routes = [
     component: ActivityCenter
   },
   {
-    path: '/DocManage',
-    name: 'DocManage',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: DocManage
+    path: '/sendsuccess',
+    name: 'sendsuccess',
+    component:sendsuccess
+  },{
+    path: '/failPending',
+    name: 'failPending',
+    component:failPending
+  },{
+    path: '/failchange',
+    name: 'failchange',
+    component:failchange
+  },{
+    path: '/recycleStation',
+    name: 'recycleStation',
+    component:recycleStation
+  },{
+    path: '/waitSend',
+    name: 'waitSend',
+    component:waitSend
+  },{
+    path: '/waitPending',
+    name: 'waitPending',
+    component:waitPending
   },
   {
     path: '/DocSale',
@@ -53,7 +76,6 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: UserMoney
   },
-
 ]
 
 const router = createRouter({

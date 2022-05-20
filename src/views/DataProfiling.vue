@@ -1,6 +1,6 @@
 <template>
   <div class='DataProfiling'>
-    <h1>This is an about page</h1>
+    <h1>这里是数据概况页面</h1>
   </div>
 </template>
 
