@@ -1,7 +1,7 @@
 
 <template>
   <!-- <el-row class="meau"> -->
-    <el-col :span="4" class="meau-left">
+    <el-col :span="3" class="meau-left">
       <h3 class="meau-title">文档管理中心</h3>
       <div class="uploadbox"><el-button type="warning" size="large" class="uploaddoc" round>上传文档</el-button></div>
       <el-menu
@@ -101,6 +101,9 @@
 <style scoped>
   .meau-left{
       background-color: #2780E3;
+  }
+  .meau-left a{
+    color:#fff
   }
   .meau-title{
       color:#fff;

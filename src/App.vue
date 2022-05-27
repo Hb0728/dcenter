@@ -2,8 +2,9 @@
   <div id="nav" >
     <el-row> 
        <meau></meau>
-       <el-col :span="20" class="meau-right">
-       
+       <el-col :span="21" class="meau-right">
+          <dcenterheader></dcenterheader>
+          <advertisement></advertisement>
           <router-view/>
        </el-col> 
     </el-row>   
@@ -12,13 +13,27 @@
 </template>
 <script>
 import meau from './components/meau'
+import dcenterheader from './components/dcenterheader'
+import advertisement from './components/advertisement'
+
 export default {
   components:{
-    meau
+    meau,
+    dcenterheader,
+    advertisement,
   }
 }
 </script>
 <style>
+a{
+  color: #2975DC;
+}
+body{
+  background: #EBEEF6;
+}
+li{
+  list-style: none;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,11 +48,21 @@ body{
       min-height: 935px;
 }
 #nav a {
-  color: white;
   text-decoration: none;
 }
 
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+.mx-4{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.text-ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+}
+
 </style>

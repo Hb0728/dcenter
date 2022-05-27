@@ -1,16 +1,27 @@
 <template>
-  <div class='UserMoney'>
-    <h1>这里是收益体现页面</h1>
+  <div class='UserMoney mx-3'>
+      <el-row type="flex" justify="" >
+          <el-col :span="13">
+            <myproceeds></myproceeds>
+          </el-col>
+          <el-col :span="11">
+            <getMoneyhistory></getMoneyhistory>
+          </el-col>
+      </el-row>
+      
+    
   </div>
 </template>
 
 <script>
-//import
+import myproceeds from '../components/userMoney_components/my_proceeds'
+import getMoneyhistory from '../components/userMoney_components/getMoney_history'
 
   export default {
     name :'UserMoney',
     components: {
-      
+      myproceeds,
+      getMoneyhistory
     },
     data() {
       return {
@@ -42,5 +53,8 @@
 }
 </script>
 <style scoped>
-  
+  .mx-3{
+  margin-left:1rem;
+  margin-right: 1rem;
+}
 </style>

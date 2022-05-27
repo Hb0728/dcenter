@@ -1,16 +1,19 @@
 <template>
   <div class='failchange'>
-      <h1>这里是转换失败页面</h1>
+      <doc_header headerName="转换失败文档"></doc_header>
+      <doc_list></doc_list>
   </div>
 </template>
 
 <script>
-//import
+import doc_header from '../../components/doc_components/doc_header'
+import doc_list from '../../components/doc_components/doc_list'
 
   export default {
     name :'failchange',
     components: {
-      
+      doc_list,
+      doc_header,
     },
     data() {
       return {

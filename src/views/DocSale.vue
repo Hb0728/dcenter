@@ -1,16 +1,19 @@
 <template>
-  <div class='DocSale'>
-    <h1>这里是文档出售明细页面</h1>
+  <div class='DocSale mx-3'>
+    <Selling_water></Selling_water>
+    <doc_list></doc_list>
   </div>
 </template>
 
 <script>
-//import
+import doc_list from '../components/doc_components/doc_list'
+import Selling_water from '../components/doc_components/Selling_water'
 
   export default {
     name :'DocSale',
     components: {
-      
+      doc_list,
+      Selling_water,
     },
     data() {
       return {

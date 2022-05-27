@@ -1,16 +1,18 @@
 <template>
   <div class='recycleStation'>
-      <h1>这里是回收站页面</h1>
+      <doc_header headerName="下架文档"></doc_header>
+      <doc_list></doc_list>
   </div>
 </template>
 
 <script>
-//import
-
+import doc_list from '../../components/doc_components/doc_list'
+import doc_header from '../../components/doc_components/doc_header'
   export default {
     name :'recycleStation',
     components: {
-      
+      doc_list,
+      doc_header,
     },
     data() {
       return {

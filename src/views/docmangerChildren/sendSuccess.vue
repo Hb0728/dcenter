@@ -1,16 +1,19 @@
 <template>
   <div class='sendsuccess'>
-      <h1>这里是发布成功页面</h1>
+      <doc_header headerName="待审核文档"></doc_header>
+      <doc_list></doc_list>
   </div>
 </template>
 
 <script>
-//import
+import doc_list from '../../components/doc_components/doc_list'
+import doc_header from '../../components/doc_components/doc_header'
 
   export default {
     name :'sendsuccess',
     components: {
-      
+      doc_list,
+      doc_header
     },
     data() {
       return {

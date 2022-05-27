@@ -1,5 +1,5 @@
 <template>
-  <div class="docmanage">
+  <div class="docmanage mx-3">
     <h1>这里是文档管理页面</h1>
     <router-view/>
   </div>

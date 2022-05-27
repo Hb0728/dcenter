@@ -1,18 +1,16 @@
 <template>
-  <div class='failPending'>
-      <doc_header headerName="审核失败文档"></doc_header>
-      <doc_list></doc_list>
+  <div class='advertisement'>
+      <a href="" style="display: block;"><img class="w-100" src="https://picsum.photos/id/154/1000/50" alt=""></a>
   </div>
 </template>
 
 <script>
-import doc_list from '../../components/doc_components/doc_list'
-import doc_header from '../../components/doc_components/doc_header'
+//import
+
   export default {
-    name :'failPending',
+    name :'advertisement',
     components: {
-      doc_list,
-      doc_header,
+      
     },
     data() {
       return {
@@ -44,5 +42,12 @@ import doc_header from '../../components/doc_components/doc_header'
 }
 </script>
 <style scoped>
-  
+    
+    .advertisement{
+        margin: 0 1rem;
+        margin-bottom: 1rem;
+    }
+    .w-100{
+        width: 100%;
+    }
 </style>

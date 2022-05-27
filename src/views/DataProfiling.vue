@@ -1,16 +1,17 @@
 <template>
-  <div class='DataProfiling'>
-    <h1>这里是数据概况页面</h1>
+  <div class='DataProfiling mx-3'>
+    <pointLine></pointLine>
   </div>
 </template>
 
 <script>
-//import
+import pointLine from './DataProfillingChildren/pointLine'
+
 
   export default {
     name :'DataProfiling',
     components: {
-      
+      pointLine
     },
     data() {
       return {
@@ -30,7 +31,6 @@
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

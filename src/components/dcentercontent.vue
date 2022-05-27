@@ -1,14 +1,13 @@
 <template>
-  <div class='header'>
-
+  <div class='dcentercontent'>
+      内容
   </div>
 </template>
 
 <script>
-//import
 
   export default {
-    name :'header',
+    name :'dcentercontent',
     components: {
       
     },
@@ -42,5 +41,9 @@
 }
 </script>
 <style scoped>
-  
+  .dcentercontent{
+      margin: 0 1rem;
+      padding: 1rem;
+      background-color: #fff;
+  }
 </style>

@@ -1,16 +1,18 @@
 <template>
   <div class='waitsend'>
-      <h1>这里是待发布页面</h1>
+      <doc_header headerName="待发布文档"></doc_header>
+      <doc_list></doc_list>
   </div>
 </template>
 
 <script>
-//import
-
+import doc_list from '../../components/doc_components/doc_list'
+import doc_header from '../../components/doc_components/doc_header'
   export default {
     name :'waitsend',
     components: {
-      
+      doc_list,
+      doc_header,
     },
     data() {
       return {
