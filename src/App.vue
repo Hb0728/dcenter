@@ -1,10 +1,9 @@
 <template>
-  <div id="nav" >
+  <div id="dcenter">
     <el-row> 
        <meau></meau>
        <el-col :span="21" class="meau-right">
           <dcenterheader></dcenterheader>
-          <advertisement></advertisement>
           <router-view/>
        </el-col> 
     </el-row>   
@@ -14,19 +13,22 @@
 <script>
 import meau from './components/meau'
 import dcenterheader from './components/dcenterheader'
-import advertisement from './components/advertisement'
 
 export default {
   components:{
     meau,
     dcenterheader,
-    advertisement,
   }
 }
 </script>
 <style>
+.mx-3{
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 a{
   color: #2975DC;
+  text-decoration: none;
 }
 body{
   background: #EBEEF6;
@@ -45,14 +47,12 @@ body{
   margin: 0;
 }
 .meau-right{
-      min-height: 935px;
-}
-#nav a {
-  text-decoration: none;
+      min-height: 852px;
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+
+#dcenter a.router-link-exact-active {
+  background-color: #1F66B6;
 }
 .mx-4{
   margin-left: 1rem;

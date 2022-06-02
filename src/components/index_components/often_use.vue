@@ -1,26 +1,26 @@
 <template>
-  <div class='often_use'>
+  <div class='often_use' v-loading="loading">
       <h3>常用功能</h3>
       <el-row justify="space-around">
-          <router-link to="">
-              <div class="text-center"><img class="cicle" src="https://picsum.photos/id/71/60/60" alt=""></div>
-              收益提现
+          <router-link to="/22">
+              <div class="text-center"><img class="cicle" src="../../assets/img/index_1.png" alt=""></div>
+              <span class="text-tit">收益提现</span>
           </router-link>
-          <router-link to="">
-              <div class="text-center"><img class="cicle" src="https://picsum.photos/id/81/60/60" alt=""></div>
-              文档出售明细
+          <router-link to="/22">
+              <div class="text-center"><img class="cicle" src="../../assets/img/index_2.png" alt=""></div>
+              <span class="text-tit">文档出售明细</span>
           </router-link>
-          <router-link to="">
-              <div class="text-center"><img class="cicle" src="https://picsum.photos/id/68/60/60" alt=""></div>
-              待审核
+          <router-link to="/22">
+              <div class="text-center"><img class="cicle" src="../../assets/img/index_3.png" alt=""></div>
+              <span class="text-tit">待审核</span>
           </router-link>
-          <router-link to="">
-              <div class="text-center"><img class="cicle" src="https://picsum.photos/id/48/60/60" alt=""></div>
-              我的文档
+          <router-link to="/121">
+              <div class="text-center"><img class="cicle" src="../../assets/img/index_4.png" alt=""></div>
+              <span class="text-tit">我的文档</span>
           </router-link>
-          <router-link to="">
-              <div class="text-center"><img class="cicle" src="https://picsum.photos/id/38/60/60" alt=""></div>
-              账号管理
+          <router-link to="/12">
+              <div class="text-center"><img class="cicle" src="../../assets/img/index_5.png" alt=""></div>
+              <span class="text-tit">账号管理</span>
           </router-link>
       </el-row>
   </div>
@@ -36,7 +36,7 @@
     },
     data() {
       return {
-        
+        loading:false
       };
     },
     computed: {
@@ -69,23 +69,26 @@
     .often_use{
         background: #fff;
         /* box-shadow: 0 0 10px #999; */
-        padding: 1.5rem;
+        padding:1.5rem;
         margin-bottom: 1rem;
     }
     .often_use h3{
       text-align: start;
-      margin: 0;
-      margin-bottom: 1rem;
+      margin: 1rem;
     }
     .justify-content-around{
         justify-content: around;
     }
     .often_use .cicle{
         border-radius: 100%;
-        padding: 1.5rem 0;
+        padding: 1rem 0;
         text-align: center;
     }
     .text-center{
         text-align: center;
+    }
+    .text-tit{
+        color:#2c3e50;
+        font-size: 14px;
     }
 </style>

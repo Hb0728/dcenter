@@ -1,6 +1,6 @@
 <template>
   <div class='advertisement'>
-      <a href="" style="display: block;"><img class="w-100" src="https://picsum.photos/id/154/1000/50" alt=""></a>
+      <a href="" style="display: block;"><img class="w-100" style="display:block" src="../assets/img/banner.jpg" alt=""></a>
   </div>
 </template>
 
@@ -44,7 +44,6 @@
 <style scoped>
     
     .advertisement{
-        margin: 0 1rem;
         margin-bottom: 1rem;
     }
     .w-100{

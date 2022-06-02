@@ -1,17 +1,19 @@
 <template>
   <div class='DataProfiling mx-3'>
+    <advertisement></advertisement>
     <pointLine></pointLine>
   </div>
 </template>
 
 <script>
 import pointLine from './DataProfillingChildren/pointLine'
-
+import advertisement from '../components/advertisement'
 
   export default {
     name :'DataProfiling',
     components: {
-      pointLine
+      pointLine,
+      advertisement,
     },
     data() {
       return {

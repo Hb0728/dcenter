@@ -1,5 +1,5 @@
 <template>
-  <div class='day_raking'>
+  <div class='day_raking' v-loading="loading">
       <h3>7天收益排行榜TOP10</h3>
       <div class="bg-secondary">
           <el-row >
@@ -10,14 +10,14 @@
       </div>
       <el-row v-for="(item,index) in raking" key="item" data-type="raking">
           <el-col :span="6" ><div data-type="raking-num">{{index+1}}</div></el-col>
-          <el-col :span="9">{{item.name}}</el-col>
-          <el-col :span="9" data-type="raking-price">￥{{item.price}}</el-col>
+          <el-col :span="9">{{item.username}}</el-col>
+          <el-col :span="9" data-type="raking-price">￥{{item.income}}</el-col>
       </el-row>
   </div>
 </template>
 
 <script>
-//import
+import axios from '../../axios'
 
   export default {
     name :'day_raking',
@@ -26,39 +26,8 @@
     },
     data() {
       return {
-          raking:[
-              {
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,
-              },{
-                  name:111,
-                  price:8923.29,                  
-              },{
-                  name:111,
-                  price:8923.29,           
-              },{
-                  name:111,
-                  price:8923.29,
-              }
-          ]
+          raking:[],
+          loading:false
       };
     },
     computed: {
@@ -66,7 +35,23 @@
     },
     watch: {},
     methods: {
-      
+        gerraking(){
+            let _this=this
+            _this.loading=true
+            axios.post('/api/user/Usercenter/get_user_ranking_list')
+            .then(res=>{
+                _this.loading=false;
+                _this.raking=res.data.data.list
+                })
+            .catch(error=>{
+                _this.loading=false;
+                _this.$message({
+                    message: error.data.code,
+                    showClose:true,
+                    type: 'error',
+                })
+            })
+        }
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
@@ -74,7 +59,7 @@
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
+      this.gerraking();
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -90,8 +75,9 @@
         background: #fff;
         /* box-shadow: 0 0 10px #999; */
         padding: 1.5rem;
-        margin-bottom: 1rem;
         margin-left: 1rem;
+        min-height: 453px;
+        margin-bottom:0.5rem
     }
     .day_raking h3{
       text-align: start;

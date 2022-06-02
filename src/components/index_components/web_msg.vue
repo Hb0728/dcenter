@@ -1,16 +1,16 @@
 <template>
-  <div class='web_msg'>
+  <div class='web_msg' v-loading="loading">
       <h3>网站公告</h3>
       <ul class="msg-list">
         <li class="text-left text-ellipsis" v-for="item in msgarr" :key="item">
-            <span>公告</span><span>丨</span> <a class="text-dark" href="">{{item.news}}</a>
+            <span>公告</span><span>丨</span> <a class="text-dark" :href="item.titleurl">{{item.title}}</a>
         </li>
       </ul>
   </div>
 </template>
 
 <script>
-//import
+import axios from '../../axios'
 
   export default {
     name :'web_msg',
@@ -19,19 +19,8 @@
     },
     data() {
       return {
-          msgarr:[
-              {
-                  id:'001',news:'关于整治“乌有之乡、炎黄春秋”文档的通知'
-              },{
-                  id:'002',news:'文档优化说明：上传的文档怎么优化，能带来更多访问量和下载量？'
-              },{
-                  id:'003',news:'关于整治“乌有之乡、炎黄春秋”文档的通知'
-              }, {
-                  id:'004',news:'文档优化说明：上传的文档怎么优化，能带来更多访问量和下载量？'
-              },{
-                  id:'005',news:'文档优化说明：上传的文档怎么优化，能带来更多访问量和下载量？'
-              },
-              ]
+          msgarr:[],
+          loading:false,
       };
     },
     computed: {
@@ -41,7 +30,22 @@
 
     },
     methods: {
-      
+      update_web_msg(){
+          let _this=this
+          _this.loading=true
+          axios.post('/api/user/Usercenter/get_site_notice')
+          .then(function(res){
+              _this.loading=false
+              _this.msgarr=res.data.data.list
+          }).catch(function(error){
+              _this.loading=false
+              _this.$message({
+                message: error.data.code,
+                showClose:true,
+                type: 'error',
+            })
+          })
+      }
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
@@ -49,7 +53,7 @@
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
+      this.update_web_msg()
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -64,7 +68,7 @@
     .web_msg{
         background: #fff;
         /* box-shadow: 0 0 10px #999; */
-        padding: 1.5rem;
+        padding: 1.25rem 1.5rem;
     }
     .web_msg h3{
       text-align: start;

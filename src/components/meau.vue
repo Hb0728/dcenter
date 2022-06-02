@@ -3,17 +3,18 @@
   <!-- <el-row class="meau"> -->
     <el-col :span="3" class="meau-left">
       <h3 class="meau-title">文档管理中心</h3>
-      <div class="uploadbox"><el-button type="warning" size="large" class="uploaddoc" round>上传文档</el-button></div>
+      <div class="uploadbox"><a href="https://www.wenku365.com/ucenter/member/user_upload.html"><el-button type="warning" size="large" class="uploaddoc" round>上传文档</el-button></a></div>
       <el-menu
         active-text-color="#ffd04b"
         background-color="#2780E3"
         class="el-menu-vertical-demo"
-        default-active="2"
+        :default-active="navIndex"
         text-color="#fff"
         @open="handleOpen"
         @close="handleClose"
+        style="border-right:none"
       >
-        <el-menu-item index="1">
+        <el-menu-item index="/">
           <template #title>
             <router-link to="/">
             <span>首页</span>
@@ -21,12 +22,12 @@
           </template>
           
         </el-menu-item>
-        <el-menu-item index="2">
+        <el-menu-item index="/DataProfiling">
             <router-link to="/DataProfiling">
               <span>数据概况</span>
             </router-link>
         </el-menu-item>
-        <el-menu-item index="3">
+        <el-menu-item index="/ActivityCenter">
             <router-link to="/ActivityCenter">
               <span>活动中心</span>
             </router-link>
@@ -36,12 +37,12 @@
             <span>文档管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="4-1"><router-link to="/sendsuccess">发布成功</router-link></el-menu-item>
-            <el-menu-item index="4-2"><router-link to="/waitSend">待发布</router-link></el-menu-item>
-            <el-menu-item index="4-3"><router-link to="/waitPending">待审核</router-link></el-menu-item>
-            <el-menu-item index="4-4"><router-link to="/failPending">审核失败</router-link></el-menu-item>
-            <el-menu-item index="4-5"><router-link to="/failchange">转换失败</router-link></el-menu-item>
-            <el-menu-item index="4-6"><router-link to="/recycleStation">回收站</router-link></el-menu-item>
+            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess">发布成功</router-link></el-menu-item>
+            <el-menu-item index="/waitSend"><router-link to="/waitSend">待发布</router-link></el-menu-item>
+            <el-menu-item index="/waitPending"><router-link to="/waitPending">待审核</router-link></el-menu-item>
+            <el-menu-item index="/failPending"><router-link to="/failPending">审核失败</router-link></el-menu-item>
+            <el-menu-item index="/failchange"><router-link to="/failchange">转换失败</router-link></el-menu-item>
+            <el-menu-item index="/recycleStation"><router-link to="/recycleStation">回收站</router-link></el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-menu-item index="5">
@@ -62,6 +63,8 @@
 
 
 <script>
+import router from '../router';
+
 
 
   export default {
@@ -71,7 +74,7 @@
     },
     data() {
       return {
-        
+        navIndex: 1
       };
     },
     computed: {
@@ -79,15 +82,23 @@
     },
     watch: {},
     methods: {
-      
+      go(path, index) {
+        this.navIndex = index;
+        router.push({
+          
+        })
+      }
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
       
-    },
+      
+    }, 
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
+      setTimeout(()=>{
+        this.navIndex = this.$route.path;
+      }, 0)
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -99,7 +110,23 @@
 }
 </script>
 <style scoped>
+  .el-menu-item{
+    padding-left: 0!important;
+    padding-right: 0!important;
+  }
+  .el-menu-item a{
+    width: 100%;
+    text-align: start;
+    padding-left: 20px;
+  }
+  .el-sub-menu .el-menu-item{
+    min-width: auto;
+  }
+  ul .el-menu-item {
+    
+  }
   .meau-left{
+      min-height: 937px;
       background-color: #2780E3;
   }
   .meau-left a{
@@ -110,6 +137,7 @@
       margin:2rem auto;
   }
   .uploadbox{
+      display: block;
       margin-bottom: 2rem;
   }
   .uploaddoc{

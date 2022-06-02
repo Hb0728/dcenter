@@ -5,25 +5,25 @@
           <el-col :span="14">
             <div class="text-left choose-item mb-3">
                 <span>文档类型：</span>
-                <el-button type="primary" plain>全部</el-button>
-                <el-button type="primary" plain>普通</el-button>
-                <el-button type="primary" plain>原创</el-button>
-                <el-button type="primary" plain>独家</el-button>
+                <el-button type="primary" :class="status_vip=='all'?'active':''" itemNum="all"  @click="reloadpage" plain>全部</el-button>
+                <el-button type="primary" :class="status_vip=='0'?'active':''" itemNum="0" @click="reloadpage" plain>普通</el-button>
+                <el-button type="primary" :class="status_vip=='1'?'active':''" itemNum="1" @click="reloadpage" plain>原创</el-button>
+                <el-button type="primary" :class="status_vip=='2'?'active':''" itemNum="2" @click="reloadpage" plain>独家</el-button>
             </div>
             <div class="text-left choose-item mb-3">
                 <span>文档格式：</span>
-                <el-button type="primary" plain>全部</el-button>
-                <el-button type="primary" plain>doc</el-button>
-                <el-button type="primary" plain>ppt</el-button>
-                <el-button type="primary" plain>xls</el-button>
-                <el-button type="primary" plain>pdf</el-button>
-                <el-button type="primary" plain>其他</el-button>
+                <el-button type="primary" :class="file_ext=='all'?'active':''" itemName="all" @click="reloadpage2" plain>全部</el-button>
+                <el-button type="primary" :class="file_ext=='doc'?'active':''" itemName="doc" @click="reloadpage2" plain>doc</el-button>
+                <el-button type="primary" :class="file_ext=='ppt'?'active':''" itemName="ppt" @click="reloadpage2" plain>ppt</el-button>
+                <el-button type="primary" :class="file_ext=='xls'?'active':''" itemName="xls" @click="reloadpage2" plain>xls</el-button>
+                <el-button type="primary" :class="file_ext=='pdf'?'active':''" itemName="pdf" @click="reloadpage2" plain>pdf</el-button>
+                <el-button type="primary" :class="file_ext=='other'?'active':''" itemName="other" @click="reloadpage2" plain>其他</el-button>
             </div>
           </el-col>
           <el-col :span="10">
           <div class="mb-3">搜索我的文档</div>
           <div class="searchbox">
-            <input class="searchinput" type="text" placeholder="请输入关键词进行搜索"><el-button><el-icon><Search /></el-icon></el-button>
+            <input class="searchinput" v-model="keywords" type="text" placeholder="请输入关键词进行搜索" @keyup.enter="searchlist"><el-button @click="searchlist"><el-icon><Search /></el-icon></el-button>
           </div>
           </el-col>
             
@@ -41,7 +41,9 @@
     },
     data() {
       return {
-        
+        status_vip:'all',
+        file_ext:'all',
+        keywords:'',
       };
     },
     computed: {
@@ -49,7 +51,17 @@
     },
     watch: {},
     methods: {
-      
+      reloadpage(e){
+          this.status_vip=e.currentTarget.getAttribute('itemNum')
+          this.$emit("updatepage",{file_ext:this.file_ext,status_vip:this.status_vip})
+      },
+      reloadpage2(e){
+         this.file_ext=e.currentTarget.getAttribute('itemName')
+         this.$emit("updatepage",{file_ext:this.file_ext,status_vip:this.status_vip})
+      },
+      searchlist(){
+        this.$emit("updatepage",{file_ext:this.file_ext,status_vip:this.status_vip,key_word:this.keywords})
+      }
     },
     props:['headerName'],
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -90,6 +102,10 @@
     }
     .mb-3{
         margin-bottom:1rem;
+    }
+    .active{
+        background: #2780E3;
+        color:#fff;
     }
     .el-col-14{
         border-right: 1px solid #f2f2f2;

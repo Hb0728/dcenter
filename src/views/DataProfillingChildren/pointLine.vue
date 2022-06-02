@@ -1,30 +1,28 @@
 <template>
-  <div class='pointLine' >
-      <div class="d-flex mb-4"><h3>指标看板</h3><el-button type="primary" round plain autofocus="true">最近7日指标</el-button> <el-button round type="primary" plain>最近30日指标</el-button></div>
+  <div class='pointLine' v-loading="loading">
+      <div class="d-flex mb-4">
+        <h3>指标看板</h3>
+        <el-button type="primary" round plain :class="{'active':selectedNum==1}" @click="dataloading">最近7日指标</el-button> 
+        <el-button round type="primary" plain :class="{'active':selectedNum==2}"  @click="dataloading2">最近30日指标</el-button>
+      </div>
       <div class="tips">
         <el-row>
-            <el-col :span="4">
+            <el-col :span="5">
               <div class="data-box">
                 <div class="data-box-top">总收益（金币）</div>
-                <div class="data-box-bottom">0</div>
+                <div class="data-box-bottom">{{sum}}</div>
               </div>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="5">
               <div class="data-box">
                 <div class="data-box-top">总支付订单（个）</div>
-                <div class="data-box-bottom">0</div>
+                <div class="data-box-bottom">{{total}}</div>
               </div>
             </el-col>
-            <el-col :span="4" >
-              <div class="data-box" >
-                <div class="data-box-top">总浏览量（次）</div>
-                <div class="data-box-bottom">0</div>
-              </div>
-            </el-col>
-            <el-col :span="4">
+            <el-col :span="5">
               <div class="data-box">
                 <div class="data-box-top">总上传量（个）</div>
-                <div class="data-box-bottom">0</div>
+                <div class="data-box-bottom">{{uploadSum}}</div>
               </div>
             </el-col>
 
@@ -37,7 +35,8 @@
 </template>
 
 <script>
-import * as echarts from 'echarts';
+import * as echarts from 'echarts'
+import axios from '../../axios'
 
   export default {
     name :'pointLine',
@@ -46,7 +45,14 @@ import * as echarts from 'echarts';
     },
     data() {
       return {
-        
+        selectedNum:1,
+        sum:'0',
+        total:'0',
+        uploadSum:'',
+        datelist:[],
+        orderlist:[],
+        allmoney:[],
+        loading:false,
       };
     },
     computed: {
@@ -57,13 +63,14 @@ import * as echarts from 'echarts';
       initpic(){
         let myChart = echarts.init(document.getElementById('pointLine-pic'));
         // 绘制图表
+        let _this=this
         myChart.setOption({
             
             tooltip: {
               trigger: 'axis'
             },
             grid:{
-                left:0
+              
             },
             legend: {},
             toolbox: {
@@ -81,7 +88,7 @@ import * as echarts from 'echarts';
             xAxis: {
               type: 'category',
               boundaryGap: false,
-              data: ['2022-04-20', '2022-04-21', '2022-04-22', '2022-04-23', '2022-04-24', '2022-04-25','2022-04-26']
+              data: _this.datelist
             },
             yAxis: {
               type: 'value',
@@ -91,9 +98,9 @@ import * as echarts from 'echarts';
             },
             series: [
               {
-                name: '总浏览量(次)',
+                name: '总支付订单(个)',
                 type: 'line',
-                data: [5, 20, 60, 10, 10, 20,58],
+                data: _this.orderlist,
                 lineStyle:{
                   color:'#FAC858',
                 },
@@ -110,9 +117,44 @@ import * as echarts from 'echarts';
                 itemStyle:{
                   color:'#5470C6',
                 },
-                data: [0, 1, 2, 3, 4, 5,6]
+                data: _this.allmoney
               }
             ]
+        })
+      },
+      dataloading(e){
+        this.selectedNum=1
+        this.getdata(false)
+      },
+      dataloading2(e){
+        this.selectedNum=2
+        this.getdata(false)
+      },
+      getdata(first){
+        let _this=this
+        _this.loading=true
+        axios.post('/api/user/Usercenter/my_sell_statistics',{
+          date_type:_this.selectedNum
+        }).then(function(res){
+          _this.loading=false
+          _this.sum=res.data.data.sum;
+          _this.total=res.data.data.total;
+          _this.uploadSum=res.data.data.uploadSum;
+          for(let obj in res.data.data.list){
+            _this.datelist.push(obj)
+            _this.orderlist.push(res.data.data.list[obj].num)
+            _this.allmoney.push(res.data.data.list[obj].sum)
+          }
+          if(first){
+            _this.initpic();
+          }
+        }).catch(error=>{
+          _this.loading=false
+          _this.$message({
+                message: error.data.code,
+                showClose:true,
+                type: 'error',
+            })
         })
       }
     },
@@ -122,7 +164,8 @@ import * as echarts from 'echarts';
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      this.initpic();
+      this.getdata(true);
+      
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -139,8 +182,6 @@ import * as echarts from 'echarts';
         /* box-shadow: 0 0 10px #999; */
         padding: 2rem;
         margin-bottom: 1rem;
-        margin-left: 1rem;
-        margin-right: 1rem;
         font-size: 14px;
     }
     .pointLine h3{
@@ -152,6 +193,10 @@ import * as echarts from 'echarts';
     }
     .mb-4{
         margin-bottom: 2rem;
+    }
+    .active{
+      background: #2780E3;
+      color: #fff;
     }
     .d-flex{
         display: flex;

@@ -1,56 +1,36 @@
 <template>
-  <div class='Activitycenter mx-4'>
-    <h3>活动中心</h3>
-    <el-row>
-      <el-col v-for="item in activelist" :key="item" data-type="w20">
-          <a class="active-item" :href="item.href">
-            <p :class="item.isactive ? 'active':''">
-              <img :src="item.picurl" alt="" style="display:block">
-            </p>
-          </a>
-      </el-col>
-    </el-row>
+  <div class="mx-3">
+    <advertisement></advertisement>
+    <div class='Activitycenter' v-loading="loading">
+      <h3>活动中心</h3>
+      <el-empty description="" v-if="activelist==''"/>
+      <el-row>
+        <el-col v-for="item in activelist" :key="item" data-type="w20">
+            <a class="active-item" :href="item.url">
+              <p :class="item.isactive ? 'active':''">
+                <img :src="'https://www.wenku365.com'+item.picurl" alt="" style="display:block;">
+              </p>
+            </a>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 
 <script>
-
+import axios from '../axios'
+import advertisement from '../components/advertisement'
 
   export default {
     name :'Activitycenter',
     components: {
-      
+      advertisement,
     },
     data() {
       return {
         activelist:[
-          { 
-            href:'/2131',
-            picurl:'https://picsum.photos/id/38/300/167',
-            isactive:true
-        },{
-             href:'/2131',
-            picurl:'https://picsum.photos/id/18/300/167',
-            isactive:false
-        },{ 
-            href:'/2131',
-            picurl:'https://picsum.photos/id/98/300/167',
-            isactive:true
-        },{
-            href:'/2131',
-            picurl:'https://picsum.photos/id/88/300/167',
-            isactive:false
-        },{
-            href:'/2131',
-            picurl:'https://picsum.photos/id/51/300/167',
-            isactive:true
-        },
-        {
-            href:'/2131',
-            picurl:'https://picsum.photos/id/51/300/167',
-            isactive:true
-        },
-        ]
+        ],
+        loading:false,
       };
     },
     computed: {
@@ -58,7 +38,33 @@
     },
     watch: {},
     methods: {
-      
+      reloadactiveitem(){
+        let _this=this
+        _this.loading=true
+        axios.post('/api/user/Usercenter/activity_list',{
+        })
+        .then(function(res){
+          _this.loading=false
+          _this.activelist=res.data.data.list
+          for(let i of _this.activelist){
+            let enddate=new Date(i.endtime).valueOf();
+            let nowdate=new Date().valueOf();
+            if(enddate>nowdate){
+              i.isactive=true
+            }else{
+              i.isactive=false
+            }
+          }
+        })
+        .catch(error=>{
+          _this.loading=false;
+          _this.$message({
+                message: error.data.code,
+                showClose:true,
+                type: 'error',
+            })
+        })
+      }
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
@@ -66,7 +72,7 @@
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
+         this.reloadactiveitem()
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -78,12 +84,11 @@
 }
 </script>
 <style scoped>
-  .Activitycenter{
+    .Activitycenter{
         background: #fff;
         box-shadow: 0 0 10px #999;
         padding: 1.5rem;
-        margin-bottom: 1.5rem;
-        margin-left: 1.5rem;
+        min-height: 630px;
     }
     .Activitycenter h3{
       text-align: start;

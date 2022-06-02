@@ -3,22 +3,24 @@
       <div class="table-header">
         <el-row>
             <el-col :span="12" style="text-align: start;">文档标题</el-col>
-            <el-col :span="3">{{itemName}}</el-col>
-            <el-col :span="3">文档售价</el-col>
-            <el-col :span="3">实得收益</el-col>
-            <el-col :span="3">出售时间</el-col>
-        </el-row>
-      </div>
-      <div class="doc-list-item">
-          <el-row v-for="item in doc_list_data" :key="item">
-            <el-col :span="12" style="text-align: start;">{{item.title}}</el-col>
             <el-col :span="3"></el-col>
-            <el-col :span="3">{{item.price}}</el-col>
-            <el-col :span="3">{{item.sale}}</el-col>
-            <el-col :span="3">{{item.time}}</el-col>
+            <el-col :span="3">售价</el-col>
+            <el-col :span="3">大小</el-col>
+            <el-col :span="3">发布时间</el-col>
         </el-row>
       </div>
-      <div class="demo-pagination-block">
+      <el-empty description="" v-if="doc_list_data==''" />
+      <div class="doc-list-item" v-if="doc_list_data!=''" v-loading="loading">
+      
+          <el-row v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
+              <el-col :span="12" class="tt-box" style="text-align: start;"><span :class="'icon-file icon-'+item.file_ext"></span><a class="text-dark" target="_blank" :href="item.titleurl">{{item.title}}</a></el-col>
+              <el-col :span="3"></el-col>
+              <el-col :span="3" class="text-yellow">{{item.userfen}}元</el-col>
+              <el-col :span="3">{{item.file_size}}</el-col>
+              <el-col :span="3">{{item.truetime}}</el-col>
+          </el-row>
+      </div>
+      <div class="demo-pagination-block" v-if="doc_list_data!=''">
         <el-pagination
           v-model:currentPage="currentPage"
           v-model:page-size="pageSize"
@@ -26,8 +28,7 @@
           :disabled="disabled"
           :background="background"
           layout="prev, pager, next, jumper"
-          :total="1000"
-          @size-change="handleSizeChange"
+          :total="totals"
           @current-change="handleCurrentChange"
         />
       </div>
@@ -35,10 +36,11 @@
 </template>
 
 <script>
+
 import { ref } from 'vue'
 
-const currentPage = ref(5)
-const pageSize = ref(100)
+const currentPage = ref(1)
+const pageSize = ref(20)
 
 const small = ref(false)
 const background = ref(true)
@@ -53,44 +55,50 @@ const disabled = ref(false)
     },
     data() {
       return {
-        doc_list_data:[
-            {
-                article_type:'doc',
-                title:'高二政治学案： 《人民代表大会制度具有强大生命力》（新人教版选修3',
-                price:'7.99',
-                sale:'7.99',
-                time:'2020-10-16',
-            }
-        ],
-        currentPage,pageSize,small,background,disabled
+        currentPage,pageSize,small,background,disabled,
+        totals:0,
       };
     },
     computed: {
       
     },
     watch: {},
-    props:['itemName'],
+    props:['doc_list_data','itemStatus','total','loading'],
     methods: {
+      handleCurrentChange(page){
+        this.$emit('updatepagelist',{page:this.currentPage,status:this.itemStatus})
+        this.totals=this.total/1
+      },
       
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-      
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
     beforeUpdate() {}, //生命周期 - 更新之前
-    updated() {}, //生命周期 - 更新之后
+    updated() {
+      this.totals=this.total/1
+    }, //生命周期 - 更新之后
     beforeDestroy() {}, //生命周期 - 销毁之前
     destroyed() {}, //生命周期 - 销毁完成
     activated() {}, //如果页面有keep-alive缓存功能，这个函数会触发
 }
 </script>
 <style scoped>
+    .text-dark{
+      color:#2c3e50;
+    }
+    .tt-box{
+      display: flex;
+      align-items: center;
+    }
+    .text-yellow{
+      color:#ff9900;
+    }
     .doc_list{
         background: #fff;
         /* box-shadow: 0 0 10px #999; */
@@ -100,9 +108,13 @@ const disabled = ref(false)
         margin-right: 1rem;
         font-size: 14px;
     }
+    .dashed-bottom{
+      border-bottom: 1px dashed #999;
+      border-top:1px solid transparent;
+    }
     .table-header{
       background: #EBEEF6;
-      padding: 0.5rem 2rem;
+      padding: 0.5rem 1rem;
       color: #999;
     }
     .doc-list-item{
@@ -110,7 +122,7 @@ const disabled = ref(false)
       padding:1rem 0;
     }
     .doc-list-item .el-row{
-      padding: .5rem 2rem;
+      padding: .8rem 1rem;
     }
     .demo-pagination-block + .demo-pagination-block {
       margin-top: 10px;
@@ -120,5 +132,11 @@ const disabled = ref(false)
     }
     .demo-pagination-block .el-pagination{
         justify-content: end;
+    }
+    .icon-file{
+      background: url(https://picsum.photos/id/21/50/50) no-repeat;
+      width: 20px;
+      height: 20px;
+      margin-right: 8px;
     }
 </style>

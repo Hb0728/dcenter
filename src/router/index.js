@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Index from '../views/Index.vue'
 import DataProfiling from '../views/DataProfiling.vue'
 import ActivityCenter from '../views/ActivityCenter.vue'
-import DocManage from '../views/DocManage.vue'
 import DocSale from '../views/DocSale.vue'
 import UserMoney from '../views/UserMoney.vue'
 import sendsuccess from '../views/docmangerChildren/sendSuccess.vue'
@@ -11,6 +10,7 @@ import recycleStation from '../views/docmangerChildren/recycleStation.vue'
 import failchange from '../views/docmangerChildren/failchange.vue'
 import waitPending from '../views/docmangerChildren/waitPending.vue'
 import waitSend from '../views/docmangerChildren/waitSend.vue'
+import failadd from '../components/404error/404.vue'
 
 
 const routes = [
@@ -75,7 +75,21 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: UserMoney
+  },{
+    path: '/404',
+    component: failadd,
+    name: '404',
+    meta: {
+      keepAlive: true,
+      isTab: false,
+      isAuth: false
+    }
+
   },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/404'
+  }
 ]
 
 const router = createRouter({

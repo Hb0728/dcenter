@@ -1,7 +1,7 @@
 <template>
-  <div class='index_dataSituation'>
+  <div class='index_dataSituation' v-loading="loading">
       <h3>数据概况</h3>
-      <el-row class="font-14">
+      <el-row class="font-14" :loading="loading">
         <el-col :span="6">
            <div class="text-999">我的资产（可提现）</div>
            <p class="font-28">129.00</p>
@@ -9,25 +9,25 @@
         </el-col>
         <el-col :span="6">
           <div class="text-999"> 昨日收益（分成）</div>
-          <p class="font-28">129.00</p>
-          <a href="">查看明细</a>
+          <p class="font-28">{{yesterdayIncome}}</p>
+          <a href="" class="line-a">查看明细</a>
         </el-col>
         <el-col :span="6">
          <div class="text-999"> 今日可上传</div>
-         <p class="font-28">15000</p>
-         <a href="">去上传</a>
+         <p class="font-28">{{uploadNum}}</p>
+         <a href="https://www.wenku365.com/ucenter/member/user_upload.html"  class="line-a">去上传</a>
         </el-col>
         <el-col :span="6">
          <div class="text-999"> 待审核文档</div>
-         <p class="font-28">9329</p>
-         <div>审核系统正在快速处理审核您的文档资料</div>
+         <p class="font-28">{{checkNum}}</p>
+         <div  class="line-a">审核系统正在快速处理审核您的文档资料</div>
         </el-col>
       </el-row>
   </div>
 </template>
 
 <script>
-//import
+import axios from '../../axios'
 
   export default {
     name :'index_dataSituation',
@@ -36,7 +36,10 @@
     },
     data() {
       return {
-        
+        checkNum:'',
+        uploadNum:'',
+        yesterdayIncome:'',
+        loading:false,
       };
     },
     computed: {
@@ -44,7 +47,26 @@
     },
     watch: {},
     methods: {
-      
+      updateUserdata(){
+        let _this=this
+        _this.loading=true
+        axios.post('/api/user/Usercenter/my_statistics')
+        .then(function(res){
+          _this.loading=false
+          _this.checkNum=res.data.data.checkNum
+          _this.uploadNum=res.data.data.uploadNum
+          _this.yesterdayIncome=res.data.data.yesterdayIncome
+        })
+        .catch(function(error){
+           _this.loading=false
+           _this.$message({
+                message: error.data.code,
+                showClose:true,
+                type: 'error',
+            })
+            dt.ele.loading=ref(false)
+        })
+      }
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
@@ -52,7 +74,7 @@
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      
+      this.updateUserdata()
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -67,7 +89,7 @@
     .index_dataSituation{
       background: #fff;
       /* box-shadow: 0 0 10px #999; */
-      padding: 1.5rem;
+      padding: 2rem;
       margin-bottom: 1rem;
     }
     .index_dataSituation h3{
@@ -84,4 +106,8 @@
     .font-28{
       font-size: 1.875rem;
     }
+    /* .line-a{
+      height: 32px;
+      line-height: 32px;
+    } */
 </style>
