@@ -1,7 +1,9 @@
 <template>
   <div id="dcenter">
     <el-row> 
-       <meau></meau>
+      <el-col :span="3" class="meau-left">
+        <meau></meau>
+      </el-col>
        <el-col :span="21" class="meau-right">
           <dcenterheader></dcenterheader>
           <router-view/>
@@ -18,6 +20,11 @@ export default {
   components:{
     meau,
     dcenterheader,
+  },
+  mounted(){
+    if(!this.$cookies.get('ttwk-login-access-token')){
+      window.location.href="https://www.wenku365.com/ucenter/member/login.html"
+    }
   }
 }
 </script>

@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="9">
           <div class="py-3">我的收益（可提现金额）</div>
-          <div class="myprice">129.00</div>
+          <div class="myprice">{{price}}</div>
           <div class="py-3" >满100元即可申请提现</div>
         </el-col>
         <el-col :span="15">
@@ -31,7 +31,7 @@
         <label  for="">
            <div class="verifica_code-box">
               <span class="boxname">图文验证码：</span><input type="text" @blur="blurverifica_code" v-model="verifica_code" placeholder="输入验证码">
-              <el-button class="verifica_code-img" @click="getvercode"><img :src="vercodeurl"  alt=""></el-button>
+              <el-button class="verifica_code-img" @click="getvercode"><img :src="vercodeurl"  alt="点击获取验证码" style="min-width:60px"></el-button>
               <div :class="[noverifica_code ? 'write-false':'','false-tips']">请输入验证码</div>
            </div>
         </label>
@@ -51,7 +51,7 @@
            <div :class="[notakemoney ? 'write-false':'','false-tips']">请输入大于100的金额</div>
         </label>
       </form>
-      <div class="pb-4"><el-button type="primary">申请提现</el-button></div>
+      <div class="pb-4"><el-button type="primary" @click="getmymoney">申请提现</el-button></div>
   </div>
 </template>
 
@@ -79,12 +79,17 @@ import { ElMessage } from 'element-plus'
         takemoney:'',
         notakemoney:false,
         hiddenkey:'',
-        vercodeurl:'https://picsum.photos/id/66/200/150',
+        vercodeurl:'',
         btntext:'获取验证码',
       };
     },
     computed: {
-      
+      price(){
+        if(JSON.parse(window.localStorage.getItem('LOGIN_DATA'))){
+          return JSON.parse(window.localStorage.getItem('LOGIN_DATA')).data.money
+        }
+        return 0
+      }
     },
     watch: {},
     methods: {
@@ -133,7 +138,7 @@ import { ElMessage } from 'element-plus'
         }
       },
       blurtakemoney(){
-        if(this.takemoney<=0){
+        if(this.takemoney<100){
           this.notakemoney=true
         }else{
           this.notakemoney=false
@@ -145,24 +150,55 @@ import { ElMessage } from 'element-plus'
         this.blurphonenum()
         if(!this.nophonenum&&!this.noverifica_code){
           let _this=this
-          axios.post('/api/oauth/app_sms/get_sms_code',{
-            mobile:_this.phonenum,
+          let params={
+            phone:_this.phonenum,
             code:_this.verifica_code,
             key:_this.hiddenkey,
-          }).then(res=>{
+            access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): ''
+          }
+          const formData = new FormData();
+          Object.keys(params).forEach((key) => {
+            formData.append(key, params[key]);
+          });
+          axios.post('/api/oauth/app_sms/get_sms_code',formData).then(res=>{
             ElMessage({
-            showClose: true,
-            message: res.data.msg,
-            type:'success'
+              message: res.data.msg,
+              type: 'success',
             })
           }).catch(error=>{
             _this.getvercode();
-            _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
         })
+        }
+      },
+      getmymoney(){
+        this.blurverifica_code()
+        this.blurphonenum()
+        this.blurtakemoney()
+        this.blurvcode()
+        this.blurtruename()
+        this.bluraliid()
+        if(!this.nophonenum&&!this.noverifica_code&&!this.notruename&&!this.notakemoney&&!this.noaliid&&!this.novcode){
+          let params2={
+            money:this.takemoney,
+            real_name:this.truename,
+            bank_account:this.aliid,
+            code:this.verifica_code,
+            moblie:this.phonenum,
+            code_info:this.vcode,
+            access_token:this.$cookies.get('ttwk-login-access-token') ?this.$cookies.get('ttwk-login-access-token'): '',
+          }
+          const formData2 = new FormData();
+          Object.keys(params2).forEach((key) => {
+            formData2.append(key, params2[key]);
+          });
+          axios.post('/api/user/Usercenter/withdraw',formData2).then(res=>{
+            ElMessage({
+              message: res.data.msg,
+              type: 'success',
+            }).catch(error=>{
+            _this.getvercode();
+          })
+          })
         }
       }
     },
@@ -190,7 +226,7 @@ import { ElMessage } from 'element-plus'
         padding: 1.5rem;
         margin-bottom: 1rem;
         font-size: 14px;
-        min-height: 695px;
+        min-height: 802px;
     }
     .p-height{
       min-height: 31px;

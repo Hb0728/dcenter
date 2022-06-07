@@ -39,11 +39,6 @@ import axios from '../../axios'
               _this.msgarr=res.data.data.list
           }).catch(function(error){
               _this.loading=false
-              _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
           })
       }
     },
@@ -82,6 +77,7 @@ import axios from '../../axios'
         padding: 0.5rem;
         margin: 0;
         margin-bottom: 0.5rem;
+        min-height: 155px;
     }
     .msg-list li{
         font-size: 14px;

@@ -14,7 +14,7 @@
     },
     data() {
       return {
-        
+        advertisement_img:'../assets/img/banner.jpg'
       };
     },
     computed: {
@@ -45,6 +45,7 @@
     
     .advertisement{
         margin-bottom: 1rem;
+        min-height:80px;
     }
     .w-100{
         width: 100%;

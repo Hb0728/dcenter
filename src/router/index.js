@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Index from '../views/Index.vue'
 import DataProfiling from '../views/DataProfiling.vue'
 import ActivityCenter from '../views/ActivityCenter.vue'
@@ -93,7 +93,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHashHistory(process.env.BASE_URL),
   routes
 })
 

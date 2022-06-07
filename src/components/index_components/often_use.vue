@@ -2,26 +2,26 @@
   <div class='often_use' v-loading="loading">
       <h3>常用功能</h3>
       <el-row justify="space-around">
-          <router-link to="/22">
+          <router-link to="/UserMoney">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_1.png" alt=""></div>
               <span class="text-tit">收益提现</span>
           </router-link>
-          <router-link to="/22">
+          <router-link to="/DocSale">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_2.png" alt=""></div>
               <span class="text-tit">文档出售明细</span>
           </router-link>
-          <router-link to="/22">
+          <router-link to="/waitPending">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_3.png" alt=""></div>
               <span class="text-tit">待审核</span>
           </router-link>
-          <router-link to="/121">
+          <router-link to="/sendsuccess">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_4.png" alt=""></div>
               <span class="text-tit">我的文档</span>
           </router-link>
-          <router-link to="/12">
+          <a href="/ucenter/member">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_5.png" alt=""></div>
               <span class="text-tit">账号管理</span>
-          </router-link>
+          </a>
       </el-row>
   </div>
 </template>

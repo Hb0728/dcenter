@@ -4,13 +4,13 @@
       <el-row class="font-14" :loading="loading">
         <el-col :span="6">
            <div class="text-999">我的资产（可提现）</div>
-           <p class="font-28">129.00</p>
-           <el-button type="warning">提现</el-button>
+           <p class="font-28">{{my_money}}</p>
+           <el-button type="warning" @click="jumprooter">提现</el-button>
         </el-col>
         <el-col :span="6">
           <div class="text-999"> 昨日收益（分成）</div>
           <p class="font-28">{{yesterdayIncome}}</p>
-          <a href="" class="line-a">查看明细</a>
+          <router-link  class="line-a" to="/DocSale">查看明细</router-link>
         </el-col>
         <el-col :span="6">
          <div class="text-999"> 今日可上传</div>
@@ -40,6 +40,7 @@ import axios from '../../axios'
         uploadNum:'',
         yesterdayIncome:'',
         loading:false,
+        my_money:'',
       };
     },
     computed: {
@@ -59,13 +60,10 @@ import axios from '../../axios'
         })
         .catch(function(error){
            _this.loading=false
-           _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
-            dt.ele.loading=ref(false)
         })
+      },
+      jumprooter(){
+        this.$router.push('/UserMoney')
       }
     },
 //生命周期 - 创建完成（可以访问当前this实例）
@@ -75,6 +73,10 @@ import axios from '../../axios'
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
       this.updateUserdata()
+      let LOGIN_DATA=JSON.parse(window.localStorage.getItem('LOGIN_DATA'))
+      if(LOGIN_DATA!=null&&LOGIN_DATA!=''){
+        this.my_money=LOGIN_DATA.data.money
+      }
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -105,9 +107,10 @@ import axios from '../../axios'
     }
     .font-28{
       font-size: 1.875rem;
+      min-height: 34px;
     }
-    /* .line-a{
+    .line-a{
       height: 32px;
       line-height: 32px;
-    } */
+    }
 </style>

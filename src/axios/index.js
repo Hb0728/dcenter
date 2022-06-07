@@ -1,8 +1,7 @@
 import axios from 'axios'
 import { ElMessage  } from 'element-plus'
 import NProgress from 'nprogress';
-let accessToken = '7331RU5XItj4Th6PB537pHbTjosrHvRTEmXfuLlhAHzkLyn9agUK-_yhbfgg72bK1JCKjD5XMHPUhvVq2SDUzVC_2zx-Iya8D9g0_oTdhifreqq-b9ZgScVaVZuZJdwrfmnfTmi1-uU2c5GxzUmeuouZUR3GepNeEgsJBizX_R7PChF03S1QuqnJ9g';
-
+let accessToken = $cookies.get('ttwk-login-access-token') ? $cookies.get('ttwk-login-access-token'):'';
 // 配置默认地址
 axios.defaults.baseURL='https://api.wenku365.com/'
 
@@ -35,7 +34,8 @@ axios.interceptors.request.use(config => {
     config.data = serialize(config.data);
   }
   if (config.data) {
-    config.data.access_token = accessToken;
+    // config.data.access_token = accessToken;
+    // console.log(config)
   } else if (config.params) {
     config.params.access_token = accessToken;
   } else {

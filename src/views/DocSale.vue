@@ -1,5 +1,5 @@
 <template>
-  <div class='DocSale mx-3'>
+  <div class='DocSale'>
     <div class='Selling_water'>
     <div class="d-flex"><h3>文档出售流水</h3><span class="font-12 text-999 mb-3">只记录一年内的出售记录</span></div>
     <div>
@@ -44,10 +44,14 @@
             <el-col :span="3">出售时间</el-col>
         </el-row>
       </div>
-      <el-empty description="description" v-if="doc_list_data==''" />
-      <div class="doc-list-item" v-if="doc_list_data!=''" v-loading="loading">
-          <el-row v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
-              <el-col :span="12" class="tt-box" style="text-align: start;"><span :class="'icon-file icon-'+item"></span><a href="item." class="text-dark" target="_blank" :href="item.titleurl">{{item.title}}</a></el-col>
+      
+      <div class="doc-list-item" v-loading="loading">
+          <el-empty description="" v-if="doc_list_data==''" />
+          <el-row v-if="doc_list_data!=''" v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
+              <el-col :span="12" class="tt-box" style="text-align: start;">
+                <!-- <span :class="'icon-file icon-'+item.file_ext"></span> -->
+                <a href="item." class="text-dark" target="_blank" :href="item.titleurl">{{item.title}}</a>
+              </el-col>
               <el-col :span="3"></el-col>
               <el-col :span="3">{{item.price}}</el-col>
               <el-col :span="3" class="text-danger">{{item.money}}</el-col>
@@ -115,7 +119,6 @@ const shortcuts = [
       return {
         value2,
         shortcuts,
-        price:2998.96,
         saledocdate:'1',
         doc_list_data:[],
         currentPage:1,
@@ -128,10 +131,25 @@ const shortcuts = [
       };
     },
     computed: {
-      
+      price(){
+        if(JSON.parse(window.localStorage.getItem('LOGIN_DATA'))){
+          return JSON.parse(window.localStorage.getItem('LOGIN_DATA')).data.benefit_all
+        }
+        return 0
+      }
     },
     watch: {},
     methods: {
+      GMTToStr(time){
+        let date = new Date(time)
+        let Str=date.getFullYear() + '-' +
+            (date.getMonth() + 1) + '-' + 
+            date.getDate() + ' ' + 
+            date.getHours() + ':' + 
+            date.getMinutes() + ':' + 
+            date.getSeconds()
+        return Str
+      },
       pickdate(){
         this.currentPage=1
         this.getdoclist(true)
@@ -153,13 +171,19 @@ const shortcuts = [
           end_time=_this.GMTToStr(_this.value2[1])
         }
         _this.loading=true
-        axios.post('/api/user/Usercenter/my_sell_list_1',{
+        let listdata = {
           page:_this.currentPage,
           pagesize:'20',
           date_type:_this.saledocdate,
           start_time,
           end_time,
-        }).then(function(res){
+          access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): ''
+        }
+        const formData = new FormData();
+        Object.keys(listdata).forEach((key) => {
+          formData.append(key, listdata[key]);
+        });
+        axios.post('/api/user/Usercenter/my_sell_list_1',formData).then(function(res){
           _this.loading=false
           _this.doc_list_data=res.data.data.list
           _this.doc_list_data.forEach(function(value){
@@ -169,11 +193,7 @@ const shortcuts = [
           _this.totals=res.data.data.total/1
         }).catch(error=>{
           _this.loading=false
-          _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
+        
         })
       },
       handleCurrentChange(){
@@ -197,9 +217,12 @@ const shortcuts = [
 }
 </script>
 <style scoped>
-      .d-flex{
+    .d-flex{
       display: flex;
       align-items: flex-end;
+    }
+    .el-empty{
+      min-height:540px;
     }
     .text-left{
       text-align: start;
@@ -282,7 +305,7 @@ const shortcuts = [
       color: #999;
     }
     .doc-list-item{
-      min-height: 550px;
+      min-height: 540px;
       padding:1rem 0;
     }
     .doc-list-item .el-row{
@@ -298,10 +321,32 @@ const shortcuts = [
         justify-content: end;
     }
     .icon-file{
-      background: url(https://picsum.photos/id/21/50/50) no-repeat;
+      background: url(../assets/img/all.svg) no-repeat;
       width: 20px;
       height: 20px;
-      margin-right: 8px;
+      background-position:center;
+      background-size: cover;
+      margin-right:.5rem;
+    }
+    .icon-ppt,.icon-pptx{
+      background: url(../assets/img/ppt.svg) no-repeat; 
+      background-position:center;
+      background-size: cover;
+    }
+    .icon-doc,.icon-docx,.icon-dot{
+      background: url(../assets/img/doc.svg) no-repeat;
+      background-position:center;
+      background-size: cover;
+    }
+    .icon-pdf{
+      background: url(../assets/img/pdf.svg) no-repeat;
+      background-position:center;
+      background-size: cover;
+    }
+    .icon-zip,icon-rar{
+      background: url(../assets/img/zip.svg) no-repeat;
+      background-position:center;
+      background-size: cover;
     }
     .active{
         background: #2780E3;

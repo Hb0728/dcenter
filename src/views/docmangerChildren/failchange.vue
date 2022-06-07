@@ -52,14 +52,20 @@ import axios from '../../axios'
         let keyword =dh.key_word ? dh.key_word:''
         let _this=this
         _this.faloading=true
-        axios.post('/api/user/Filescenter/my_upload',{
+        let params={
           page,
           pagesize,
           status,
           file_ext,
           status_vip,
           keyword,
-        })
+          access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): ''
+        }
+        const formData = new FormData();
+        Object.keys(params).forEach((key) => {
+          formData.append(key, params[key]);
+        });
+        axios.post('/api/user/Filescenter/my_upload',formData)
         .then(function(res){
             // _this.loading=ref(false)
             _this.doc_list_data=res.data.data.list
@@ -67,11 +73,7 @@ import axios from '../../axios'
             _this.faloading=false
         })
         .catch(function(error){
-            _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
+            
             _this.faloading=false
         })
       }

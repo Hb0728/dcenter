@@ -41,8 +41,14 @@ import advertisement from '../components/advertisement'
       reloadactiveitem(){
         let _this=this
         _this.loading=true
-        axios.post('/api/user/Usercenter/activity_list',{
-        })
+        let params ={
+          access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): ''
+        }
+        const formData = new FormData();
+          Object.keys(params).forEach((key) => {
+            formData.append(key, params[key]);
+        });
+        axios.post('/api/user/Usercenter/activity_list',formData)
         .then(function(res){
           _this.loading=false
           _this.activelist=res.data.data.list
@@ -58,11 +64,6 @@ import advertisement from '../components/advertisement'
         })
         .catch(error=>{
           _this.loading=false;
-          _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
         })
       }
     },
@@ -86,9 +87,11 @@ import advertisement from '../components/advertisement'
 <style scoped>
     .Activitycenter{
         background: #fff;
-        box-shadow: 0 0 10px #999;
         padding: 1.5rem;
-        min-height: 630px;
+        min-height:630px
+    }
+    .el-empty{
+      min-height:670px
     }
     .Activitycenter h3{
       text-align: start;

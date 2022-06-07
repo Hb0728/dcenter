@@ -1,6 +1,6 @@
 <template>
   <div class='UserMoney mx-3'>
-      <el-row type="flex" justify="" >
+      <el-row type="flex">
           <el-col :span="13">
             <myproceeds></myproceeds>
           </el-col>

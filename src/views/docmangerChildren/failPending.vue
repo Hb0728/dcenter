@@ -1,7 +1,7 @@
 <template>
   <div class='failPending'>
       <doc_header headerName="审核失败文档" @updatepage="updatepage"></doc_header>
-      <doc_list itemStatus="-10" @updatepagelist="updatepagelist" :doc_list_data="doc_list_data" :total="total" :loading="faloading"></doc_list>
+      <doc_list itemStatus="-10" @updatepagelist="updatepagelist" failname="失败原因" :doc_list_data="doc_list_data" :total="total" :loading="faloading"></doc_list>
   </div>
 </template>
 
@@ -9,7 +9,6 @@
 import doc_list from '../../components/doc_components/doc_list'
 import doc_header from '../../components/doc_components/doc_header'
 import axios from '../../axios'
-import { ElMessage } from 'element-plus'
 
   export default {
     name :'failPending',
@@ -53,14 +52,20 @@ import { ElMessage } from 'element-plus'
         let keyword =dh.key_word ? dh.key_word:''
         let _this=this
         _this.faloading=true
-        axios.post('/api/user/Filescenter/my_upload',{
+        let params={
           page,
           pagesize,
           status,
           file_ext,
           status_vip,
           keyword,
-        })
+          access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): ''
+        }
+        const formData = new FormData();
+        Object.keys(params).forEach((key) => {
+          formData.append(key, params[key]);
+        });
+        axios.post('/api/user/Filescenter/my_upload',formData)
         .then(function(res){
             // _this.loading=ref(false)
             _this.doc_list_data=res.data.data.list
@@ -68,11 +73,7 @@ import { ElMessage } from 'element-plus'
             _this.faloading=false
         })
         .catch(function(error){
-            _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
+            
             _this.faloading=false
         })
       }

@@ -45,11 +45,6 @@ import axios from '../../axios'
                 })
             .catch(error=>{
                 _this.loading=false;
-                _this.$message({
-                    message: error.data.code,
-                    showClose:true,
-                    type: 'error',
-                })
             })
         }
     },
@@ -76,7 +71,7 @@ import axios from '../../axios'
         /* box-shadow: 0 0 10px #999; */
         padding: 1.5rem;
         margin-left: 1rem;
-        min-height: 453px;
+        min-height: 447px;
         margin-bottom:0.5rem
     }
     .day_raking h3{

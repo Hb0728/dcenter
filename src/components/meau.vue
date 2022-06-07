@@ -1,7 +1,7 @@
 
 <template>
   <!-- <el-row class="meau"> -->
-    <el-col :span="3" class="meau-left">
+    <div  class="meau-left">
       <h3 class="meau-title">文档管理中心</h3>
       <div class="uploadbox"><a href="https://www.wenku365.com/ucenter/member/user_upload.html"><el-button type="warning" size="large" class="uploaddoc" round>上传文档</el-button></a></div>
       <el-menu
@@ -10,8 +10,6 @@
         class="el-menu-vertical-demo"
         :default-active="navIndex"
         text-color="#fff"
-        @open="handleOpen"
-        @close="handleClose"
         style="border-right:none"
       >
         <el-menu-item index="/">
@@ -56,7 +54,7 @@
             </router-link>
         </el-menu-item>
       </el-menu>
-    </el-col>
+    </div>
     
 <!-- </el-row> -->
 </template>
@@ -126,7 +124,13 @@ import router from '../router';
     
   }
   .meau-left{
-      min-height: 937px;
+      position:fixed;
+      top:0;
+      width:12.5%;
+      bottom:0;
+      height: 100%;
+      max-width: 12.5%;
+      flex: 0 0 12.5%;
       background-color: #2780E3;
   }
   .meau-left a{

@@ -2,8 +2,8 @@
   <div class='pointLine' v-loading="loading">
       <div class="d-flex mb-4">
         <h3>指标看板</h3>
-        <el-button type="primary" round plain :class="{'active':selectedNum==1}" @click="dataloading">最近7日指标</el-button> 
-        <el-button round type="primary" plain :class="{'active':selectedNum==2}"  @click="dataloading2">最近30日指标</el-button>
+        <el-button type="primary" round plain :class="{'active':selectedNum=='1'}" @click="dataloading">最近7日指标</el-button> 
+        <el-button round type="primary" plain :class="{'active':selectedNum=='2'}"  @click="dataloading2">最近30日指标</el-button>
       </div>
       <div class="tips">
         <el-row>
@@ -45,7 +45,7 @@ import axios from '../../axios'
     },
     data() {
       return {
-        selectedNum:1,
+        selectedNum:'1',
         sum:'0',
         total:'0',
         uploadSum:'',
@@ -123,38 +123,47 @@ import axios from '../../axios'
         })
       },
       dataloading(e){
-        this.selectedNum=1
+        this.selectedNum='1'
         this.getdata(false)
       },
       dataloading2(e){
-        this.selectedNum=2
+        this.selectedNum='2'
         this.getdata(false)
       },
+      
       getdata(first){
         let _this=this
         _this.loading=true
-        axios.post('/api/user/Usercenter/my_sell_statistics',{
-          date_type:_this.selectedNum
-        }).then(function(res){
+        let params={
+          date_type:_this.selectedNum,
+          access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): '' 
+        }
+        const formData = new FormData();
+        Object.keys(params).forEach((key) => {
+          formData.append(key, params[key]);
+        });
+        axios.post('/api/user/Usercenter/my_sell_statistics',formData).then(function(res){
           _this.loading=false
-          _this.sum=res.data.data.sum;
-          _this.total=res.data.data.total;
-          _this.uploadSum=res.data.data.uploadSum;
+          _this.sum=res.data.data.sum*1;
+          _this.total=res.data.data.total*1;
+          _this.uploadSum=res.data.data.uploadSum*1
+          let xlist =[];
+          let y1list=[];
+          let y2list=[];
           for(let obj in res.data.data.list){
-            _this.datelist.push(obj)
-            _this.orderlist.push(res.data.data.list[obj].num)
-            _this.allmoney.push(res.data.data.list[obj].sum)
+            xlist.push(obj)
+            y1list.push(res.data.data.list[obj].num*1)
+            y2list.push(res.data.data.list[obj].sum*1)
           }
-          if(first){
-            _this.initpic();
-          }
+          _this.datelist=xlist;
+          _this.orderlist=y1list;
+          _this.allmoney=y2list;
+          // if(first){
+          //   _this.initpic();
+          // }
+          _this.initpic();
         }).catch(error=>{
           _this.loading=false
-          _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
         })
       }
     },

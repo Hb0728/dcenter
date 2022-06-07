@@ -9,7 +9,7 @@
             <el-col :span="6">状态</el-col>
         </el-row>
       </div>
-      <el-empty description=""  v-if="getMoney_history==''"/>
+      <el-empty description="" class="empty_box"  v-if="getMoney_history==''"/>
       <div class="getMoney-list" v-if="getMoney_history!=''">
           
           <el-row v-for="item in getMoney_history" :key="item">
@@ -19,7 +19,7 @@
             <el-col :span="6"><div v-html="item.status"></div></el-col>
           </el-row>
       </div>
-      <div class="demo-pagination-block">
+      <div class="demo-pagination-block" v-if="getMoney_history!=''">
         <el-pagination
           v-model:currentPage="currentPage"
           v-model:page-size="pageSize"
@@ -66,11 +66,17 @@ import axios from '../../axios'
       getusermoney(){
         let _this=this
         _this.loading=true
-        axios.post('/api/user/Usercenter/my_withdraw',{
+        let params={
           page:_this.currentPage,
           pagesize:_this.pageSize,
-          status:'12'
-        }).then(res=>{
+          status:'12',
+          access_token:_this.$cookies.get('ttwk-login-access-token') ?_this.$cookies.get('ttwk-login-access-token'): ''
+        }
+        const formData = new FormData();
+        Object.keys(params).forEach((key) => {
+          formData.append(key, params[key]);
+        });
+        axios.post('/api/user/Usercenter/my_withdraw',formData).then(res=>{
           _this.loading=false
           _this.getMoney_history=res.data.data.list
           _this.getMoney_history.forEach(function(value){
@@ -89,11 +95,6 @@ import axios from '../../axios'
           _this.total=res.data.data.total[0].total/1
         }).catch(error=>{
           _this.loading=false
-          _this.$message({
-                message: error.data.code,
-                showClose:true,
-                type: 'error',
-            })
         })
       },
       prevpage(){
@@ -142,7 +143,7 @@ import axios from '../../axios'
       color: #999;
     }
     .getMoney-list{
-      min-height: 624px;
+      min-height: 662px;
       padding:1rem 0;
     }
     .getMoney-list .el-row{
@@ -156,5 +157,8 @@ import axios from '../../axios'
     }
     .demo-pagination-block .el-pagination{
         justify-content:flex-end;
+    }
+    .empty_box{
+      min-height: 730px;
     }
 </style>

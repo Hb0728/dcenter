@@ -2,19 +2,19 @@
   <div class='doc_list'>
       <div class="table-header">
         <el-row>
-            <el-col :span="12" style="text-align: start;">文档标题</el-col>
-            <el-col :span="3"></el-col>
+            <el-col :span="11" style="text-align: start;">文档标题</el-col>
+            <el-col :span="4">{{failname}}</el-col>
             <el-col :span="3">售价</el-col>
             <el-col :span="3">大小</el-col>
             <el-col :span="3">发布时间</el-col>
         </el-row>
       </div>
-      <el-empty description="" v-if="doc_list_data==''" />
-      <div class="doc-list-item" v-if="doc_list_data!=''" v-loading="loading">
       
-          <el-row v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
-              <el-col :span="12" class="tt-box" style="text-align: start;"><span :class="'icon-file icon-'+item.file_ext"></span><a class="text-dark" target="_blank" :href="item.titleurl">{{item.title}}</a></el-col>
-              <el-col :span="3"></el-col>
+      <div class="doc-list-item" v-loading="loading">
+          <el-empty description="" v-if="doc_list_data==''" />
+          <el-row v-if="doc_list_data!=''" v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
+              <el-col :span="11" class="tt-box" style="text-align: start;"><span :class="'icon-file icon-'+item.file_ext"></span><a class="text-dark text-ellipsis" target="_blank" :href="item.titleurl">{{item.title}}</a></el-col>
+              <el-col class="text-danger" :span="4">{{item.status_check_desc}}</el-col>
               <el-col :span="3" class="text-yellow">{{item.userfen}}元</el-col>
               <el-col :span="3">{{item.file_size}}</el-col>
               <el-col :span="3">{{item.truetime}}</el-col>
@@ -63,7 +63,7 @@ const disabled = ref(false)
       
     },
     watch: {},
-    props:['doc_list_data','itemStatus','total','loading'],
+    props:['doc_list_data','itemStatus','total','loading','failname'],
     methods: {
       handleCurrentChange(page){
         this.$emit('updatepagelist',{page:this.currentPage,status:this.itemStatus})
@@ -89,6 +89,10 @@ const disabled = ref(false)
 }
 </script>
 <style scoped>
+    .text-danger{
+      color:#ff0000;
+      font-size:12px
+    }
     .text-dark{
       color:#2c3e50;
     }
@@ -98,6 +102,9 @@ const disabled = ref(false)
     }
     .text-yellow{
       color:#ff9900;
+    }
+    .el-empty{
+      min-height:540px;
     }
     .doc_list{
         background: #fff;
@@ -118,7 +125,7 @@ const disabled = ref(false)
       color: #999;
     }
     .doc-list-item{
-      min-height: 550px;
+      min-height: 540px;
       padding:1rem 0;
     }
     .doc-list-item .el-row{
@@ -134,9 +141,33 @@ const disabled = ref(false)
         justify-content: end;
     }
     .icon-file{
-      background: url(https://picsum.photos/id/21/50/50) no-repeat;
+      background: url(../../assets/img/all.svg) no-repeat;
       width: 20px;
       height: 20px;
-      margin-right: 8px;
+      background-position:center;
+      background-size: cover;
+      margin-right:.5rem;
     }
+    .icon-ppt,.icon-pptx{
+      background: url(../../assets/img/ppt.svg) no-repeat; 
+      background-position:center;
+      background-size: cover;
+    }
+    .icon-doc,.icon-docx,.icon-dot{
+      background: url(../../assets/img/doc.svg) no-repeat;
+      background-position:center;
+      background-size: cover;
+    }
+    .icon-pdf{
+      background: url(../../assets/img/pdf.svg) no-repeat;
+      background-position:center;
+      background-size: cover;
+    }
+    .icon-zip,icon-rar{
+      background: url(../../assets/img/zip.svg) no-repeat;
+      background-position:center;
+      background-size: cover;
+    }
+    
+
 </style>

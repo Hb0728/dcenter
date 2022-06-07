@@ -1,9 +1,9 @@
 <template>
     <div class="dcenterheader">
         <el-row class="mb-3">
-            <el-col :span="3" ><a href="" style="color:#2c3e50"  v-text="'<&nbsp&nbsp返回个人中心'" >  </a></el-col>
-            <el-col :span="2" ><a href="" style="color:#2c3e50">网站首页</a></el-col>
-            <el-col class="user-box" :span="3" :offset="16"><a class="login-header" href="https://www.wenku365.com/ucenter/member"><img class="user-pic rounded-circle" src="https://picsum.photos/id/58/50/50" ><div>用户昵称</div></a></el-col>
+            <el-col :span="3" ><a href="https://www.wenku365.com/ucenter/member/index.html" style="color:#2c3e50"  v-text="'<&nbsp&nbsp返回个人中心'" >  </a></el-col>
+            <el-col :span="2" ><a href="https://www.wenku365.com/" style="color:#2c3e50">网站首页</a></el-col>
+            <el-col class="user-box" :span="3" :offset="16"><a class="login-header" href="https://www.wenku365.com/ucenter/member"><li class="user-pic"><img class=" rounded-circle" :src="user_pic" ></li><div>{{user_name}}</div></a></el-col>
         </el-row>
     </div>
 </template>
@@ -17,7 +17,8 @@
     },
     data() {
       return {
-        
+        user_pic:'https://static.wenku365.com/wenku365/img/avatar.png',
+        user_name:'用户名'
       };
     },
     computed: {
@@ -33,7 +34,13 @@
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-
+        let LOGIN_DATA=JSON.parse(window.localStorage.getItem('LOGIN_DATA'))
+        if(LOGIN_DATA!=null&&LOGIN_DATA.data.userpic){
+            this.user_pic=LOGIN_DATA.data.userpic
+        }
+        if(LOGIN_DATA!=null&&LOGIN_DATA.data.nickname){
+            this.user_name=LOGIN_DATA.data.nickname
+        }
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
@@ -69,6 +76,10 @@
       width: 24px;
       height: 24px;
       margin-right: .5rem;
+      line-height:24px
+  }
+  .user-pic img{
+      width:100%;
   }
   .user-box{
       display: flex;
