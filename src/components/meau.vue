@@ -120,9 +120,6 @@ import router from '../router';
   .el-sub-menu .el-menu-item{
     min-width: auto;
   }
-  ul .el-menu-item {
-    
-  }
   .meau-left{
       position:fixed;
       top:0;
