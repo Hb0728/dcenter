@@ -3,7 +3,7 @@
       <h3>网站公告</h3>
       <ul class="msg-list">
         <li class="text-left text-ellipsis" v-for="item in msgarr" :key="item">
-            <span>公告</span><span>丨</span> <a class="text-dark" :href="item.titleurl">{{item.title}}</a>
+            <span>公告</span><span>丨</span> <a class="text-dark a-hover" :href="item.titleurl">{{item.title}}</a>
         </li>
       </ul>
   </div>

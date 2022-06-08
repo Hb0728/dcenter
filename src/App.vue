@@ -37,6 +37,12 @@ a{
   color: #2975DC;
   text-decoration: none;
 }
+  .a-hover{
+      color:#2c3e50
+  }
+  .a-hover:hover{
+      color:#2975DC
+  }
 body{
   background: #EBEEF6;
 }

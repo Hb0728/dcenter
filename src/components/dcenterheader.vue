@@ -1,9 +1,9 @@
 <template>
     <div class="dcenterheader">
         <el-row class="mb-3">
-            <el-col :span="3" ><a href="https://www.wenku365.com/ucenter/member/index.html" style="color:#2c3e50"  v-text="'<&nbsp&nbsp返回个人中心'" >  </a></el-col>
-            <el-col :span="2" ><a href="https://www.wenku365.com/" style="color:#2c3e50">网站首页</a></el-col>
-            <el-col class="user-box" :span="3" :offset="16"><a class="login-header" href="https://www.wenku365.com/ucenter/member"><li class="user-pic"><img class=" rounded-circle" :src="user_pic" ></li><div>{{user_name}}</div></a></el-col>
+            <el-col :span="3" ><a href="https://www.wenku365.com/ucenter/member/index.html" class="a-hover"  v-text="'<&nbsp&nbsp返回个人中心'" >  </a></el-col>
+            <el-col :span="2" ><a href="https://www.wenku365.com/" class="a-hover" >网站首页</a></el-col>
+            <el-col class="user-box" :span="3" :offset="16"><a class="login-header a-hover" href="https://www.wenku365.com/ucenter/member"><li class="user-pic"><img class=" rounded-circle" :src="user_pic" ></li><div>{{user_name}}</div></a></el-col>
         </el-row>
     </div>
 </template>
@@ -69,6 +69,7 @@
   .mb-3{
       margin-bottom: 1rem;
   }
+  
   .rounded-circle{
       border-radius: 100%;
   }

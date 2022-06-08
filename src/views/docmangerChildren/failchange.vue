@@ -1,6 +1,6 @@
 <template>
   <div class='failchange'>
-      <doc_header headerName="转换失败文档" @updatepage="updatepage"></doc_header>
+      <doc_header :headerName="'转换失败文档（'+firstTotals+'）'" headerTips="转换失败是由于系统无法提取文件信息导致文件转换失败" @updatepage="updatepage"></doc_header>
       <doc_list itemStatus="-1" @updatepagelist="updatepagelist" :doc_list_data="doc_list_data" :total="total" :loading="faloading"></doc_list>
   </div>
 </template>
@@ -26,11 +26,17 @@ import axios from '../../axios'
         total:'0',
         doc_list_data:[],
         faloading:false,
-        itemstatus:'-1'
+        itemstatus:'-1',
+        firstTotal:'0'
       };
     },
     computed: {
-      
+      firstTotals(){
+        if(JSON.parse(window.localStorage.getItem('failchangeTotal'))){
+           return JSON.parse(window.localStorage.getItem('failchangeTotal'))
+        }
+        return this.firstTotal
+      }
     },
     watch: {},
     methods: {
@@ -42,7 +48,7 @@ import axios from '../../axios'
         this.param2=data
         this.getitemlist(this.param1,this.param2)
       },
-      getitemlist(dh,db){
+      getitemlist(dh,db,isfirst){
         // let haslist = dt.haslist ? dt.haslist:false;
         let page = db.page ? db.page:1;
         let pagesize = db.pagesize ? db.pagesize:20
@@ -71,6 +77,11 @@ import axios from '../../axios'
             _this.doc_list_data=res.data.data.list
             _this.total=res.data.data.total/1
             _this.faloading=false
+            if(isfirst){
+              window.localStorage.setItem('failchangeTotal', JSON.stringify(res.data.data.total/1))
+              _this.firstTotal=res.data.data.total/1
+              _this.$store.commit('setfailchangeTotal', res.data.data.total/1)
+            }
         })
         .catch(function(error){
             
@@ -84,7 +95,7 @@ import axios from '../../axios'
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      this.getitemlist('','');
+      this.getitemlist('','',true);
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

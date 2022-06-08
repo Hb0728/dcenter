@@ -1,6 +1,6 @@
 <template>
   <div class='doc_header'>
-      <h3>{{headerName}}</h3>
+      <h3>{{headerName}}<span class="headerTips">{{headerTips}}</span></h3>
       <el-row>
           <el-col :span="14">
             <div class="text-left choose-item mb-3">
@@ -63,7 +63,7 @@
         this.$emit("updatepage",{file_ext:this.file_ext,status_vip:this.status_vip,key_word:this.keywords})
       }
     },
-    props:['headerName'],
+    props:['headerName','headerTips'],
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
       
@@ -136,5 +136,11 @@
     .choose-item .el-button{
         height: 25px;
         margin-left: 1rem;
+    }
+    .headerTips{
+      color:#999;
+      font-size:12px;
+      padding: 0 1rem;
+      font-weight: 400;
     }
 </style>

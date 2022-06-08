@@ -1,6 +1,6 @@
 <template>
   <div class='waitsend'>
-      <doc_header headerName="待发布文档" @updatepage="updatepage"></doc_header>
+      <doc_header :headerName="'待发布文档（'+firstTotals+'）'" headerTips="待发布表示已经通过审核文档正在排队发布的文档" @updatepage="updatepage"></doc_header>
       <doc_list itemStatus="100" @updatepagelist="updatepagelist" :doc_list_data="doc_list_data" :total="total" :loading="faloading"></doc_list>
   </div>
 </template>
@@ -27,11 +27,17 @@ import { ElMessage } from 'element-plus'
         total:'0',
         doc_list_data:[],
         faloading:false,
-        itemstatus:'100'
+        itemstatus:'100',
+        firstTotal:'0'
       };
     },
     computed: {
-      
+      firstTotals(){
+        if(JSON.parse(window.localStorage.getItem('waitSendTotal'))){
+           return JSON.parse(window.localStorage.getItem('waitSendTotal'))
+        }
+        return this.firstTotal
+      }
     },
     watch: {},
     methods: {
@@ -43,7 +49,7 @@ import { ElMessage } from 'element-plus'
         this.param2=data
         this.getitemlist(this.param1,this.param2)
       },
-      getitemlist(dh,db){
+      getitemlist(dh,db,isfirst){
         // let haslist = dt.haslist ? dt.haslist:false;
         let page = db.page ? db.page:1;
         let pagesize = db.pagesize ? db.pagesize:20
@@ -72,6 +78,11 @@ import { ElMessage } from 'element-plus'
             _this.doc_list_data=res.data.data.list
             _this.total=res.data.data.total/1
             _this.faloading=false
+            if(isfirst){
+              window.localStorage.setItem('waitSendTotal', JSON.stringify(res.data.data.total/1))
+              _this.firstTotal=res.data.data.total/1
+              _this.$store.commit('setwaitSendTotal', res.data.data.total/1)
+            }
         })
         .catch(function(error){
             
@@ -85,7 +96,7 @@ import { ElMessage } from 'element-plus'
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      this.getitemlist('','');
+      this.getitemlist('','',true);
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

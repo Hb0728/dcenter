@@ -76,6 +76,8 @@ import axios from '../../axios'
       let LOGIN_DATA=JSON.parse(window.localStorage.getItem('LOGIN_DATA'))
       if(LOGIN_DATA!=null&&LOGIN_DATA!=''){
         this.my_money=LOGIN_DATA.data.money
+      }else{
+        this.my_money=0
       }
     },
     beforeCreate() {}, //生命周期 - 创建之前

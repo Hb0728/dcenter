@@ -2,23 +2,23 @@
   <div class='often_use' v-loading="loading">
       <h3>常用功能</h3>
       <el-row justify="space-around">
-          <router-link to="/UserMoney">
+          <router-link class="a-hover" to="/UserMoney">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_1.png" alt=""></div>
               <span class="text-tit">收益提现</span>
           </router-link>
-          <router-link to="/DocSale">
+          <router-link class="a-hover" to="/DocSale">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_2.png" alt=""></div>
               <span class="text-tit">文档出售明细</span>
           </router-link>
-          <router-link to="/waitPending">
+          <router-link class="a-hover" to="/waitPending">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_3.png" alt=""></div>
               <span class="text-tit">待审核</span>
           </router-link>
-          <router-link to="/sendsuccess">
+          <router-link class="a-hover" to="/sendsuccess">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_4.png" alt=""></div>
               <span class="text-tit">我的文档</span>
           </router-link>
-          <a href="/ucenter/member">
+          <a class="a-hover" href="/ucenter/member">
               <div class="text-center"><img class="cicle" src="../../assets/img/index_5.png" alt=""></div>
               <span class="text-tit">账号管理</span>
           </a>
@@ -88,7 +88,6 @@
         text-align: center;
     }
     .text-tit{
-        color:#2c3e50;
         font-size: 14px;
     }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class='sendsuccess'>
-      <doc_header headerName="待审核文档" @updatepage="updatepage"></doc_header>
+      <doc_header :headerName="'已发布文档（'+firstTotals+'）'" headerTips="已发布文档是表示已经发布到网站的文档"  @updatepage="updatepage"></doc_header>
       <doc_list itemStatus="99" @updatepagelist="updatepagelist" :doc_list_data="doc_list_data" :total="total" :loading="faloading"></doc_list>
   </div>
 </template>
@@ -27,11 +27,17 @@ import axios from '../../axios'
         total:'0',
         doc_list_data:[],
         faloading:false,
-        itemstatus:'99'
+        itemstatus:'99',
+        firstTotal:'0'
       };
     },
     computed: {
-      
+      firstTotals(){
+        if(JSON.parse(window.localStorage.getItem('sendSuccessTotal'))){
+           return JSON.parse(window.localStorage.getItem('sendSuccessTotal'))
+        }
+        return this.firstTotal
+      }
     },
     watch: {},
     methods: {
@@ -43,7 +49,7 @@ import axios from '../../axios'
         this.param2=data
         this.getitemlist(this.param1,this.param2)
       },
-      getitemlist(dh,db){
+      getitemlist(dh,db,isfirst){
         let page = db.page ? db.page:1;
         let pagesize = db.pagesize ? db.pagesize:20
         let file_ext = dh.file_ext ? dh.file_ext:'all'
@@ -71,6 +77,11 @@ import axios from '../../axios'
             _this.doc_list_data=res.data.data.list
             _this.total=res.data.data.total/1
             _this.faloading=false
+            if(isfirst){
+              window.localStorage.setItem('sendSuccessTotal', JSON.stringify(res.data.data.total/1))
+              _this.firstTotal=res.data.data.total/1
+              _this.$store.commit('setsendSuccessTotal', res.data.data.total/1)
+            }
         })
         .catch(function(error){
             
@@ -84,7 +95,7 @@ import axios from '../../axios'
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
-      this.getitemlist('','');
+      this.getitemlist('','',true);
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前

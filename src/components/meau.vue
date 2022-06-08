@@ -3,7 +3,7 @@
   <!-- <el-row class="meau"> -->
     <div  class="meau-left">
       <h3 class="meau-title">文档管理中心</h3>
-      <div class="uploadbox"><a href="https://www.wenku365.com/ucenter/member/user_upload.html"><el-button type="warning" size="large" class="uploaddoc" round>上传文档</el-button></a></div>
+      <div class="uploadbox"><a href="https://www.wenku365.com/ucenter/upload/#/uploading/index"><el-button type="warning" size="large" class="uploaddoc" round>上传文档</el-button></a></div>
       <el-menu
         active-text-color="#ffd04b"
         background-color="#2780E3"
@@ -35,12 +35,12 @@
             <span>文档管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess">发布成功</router-link></el-menu-item>
-            <el-menu-item index="/waitSend"><router-link to="/waitSend">待发布</router-link></el-menu-item>
-            <el-menu-item index="/waitPending"><router-link to="/waitPending">待审核</router-link></el-menu-item>
-            <el-menu-item index="/failPending"><router-link to="/failPending">审核失败</router-link></el-menu-item>
-            <el-menu-item index="/failchange"><router-link to="/failchange">转换失败</router-link></el-menu-item>
-            <el-menu-item index="/recycleStation"><router-link to="/recycleStation">回收站</router-link></el-menu-item>
+            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess">发布成功<span v-if="$store.state.sendSuccessTotal!=''">{{'（'+$store.state.sendSuccessTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/waitSend"><router-link to="/waitSend">待发布<span v-if="$store.state.waitSendTotal!=''">{{'（'+$store.state.waitSendTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/waitPending"><router-link to="/waitPending">待审核<span v-if="$store.state.waitPendingTotal!=''">{{'（'+$store.state.waitPendingTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/failPending"><router-link to="/failPending">审核失败<span v-if="$store.state.failPendingTotal!=''">{{'（'+$store.state.failPendingTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/failchange"><router-link to="/failchange">转换失败<span v-if="$store.state.failchangeTotal!=''">{{'（'+$store.state.failchangeTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/recycleStation"><router-link to="/recycleStation">回收站<span v-if="$store.state.recycleStationTotal!=''">{{'（'+$store.state.recycleStationTotal+'）'}}</span></router-link></el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-menu-item index="5">
@@ -72,11 +72,10 @@ import router from '../router';
     },
     data() {
       return {
-        navIndex: 1
+        navIndex: 1,
       };
     },
     computed: {
-      
     },
     watch: {},
     methods: {
@@ -89,7 +88,6 @@ import router from '../router';
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
-      
       
     }, 
 //生命周期 - 挂载完成（可以访问DOM元素）

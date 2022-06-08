@@ -43,8 +43,12 @@ import getMoneyhistory from '../components/userMoney_components/getMoney_history
     mounted() {
       
     },
-    beforeCreate() {}, //生命周期 - 创建之前
-    beforeMount() {}, //生命周期 - 挂载之前
+    beforeCreate() {
+
+    }, //生命周期 - 创建之前
+    beforeMount() {
+
+    }, //生命周期 - 挂载之前
     beforeUpdate() {}, //生命周期 - 更新之前
     updated() {}, //生命周期 - 更新之后
     beforeDestroy() {}, //生命周期 - 销毁之前
@@ -54,7 +58,7 @@ import getMoneyhistory from '../components/userMoney_components/getMoney_history
 </script>
 <style scoped>
   .mx-3{
-  margin-left:1rem;
-  margin-right: 1rem;
-}
+    margin-left:1rem;
+    margin-right: 1rem;
+  }
 </style>

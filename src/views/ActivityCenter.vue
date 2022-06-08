@@ -7,7 +7,7 @@
       <el-row>
         <el-col v-for="item in activelist" :key="item" data-type="w20">
             <a class="active-item" :href="item.url">
-              <p :class="item.isactive ? 'active':''">
+              <p :class="item.isactive ? '':'endactive'">
                 <img :src="'https://www.wenku365.com'+item.picurl" alt="" style="display:block;">
               </p>
             </a>
@@ -106,19 +106,24 @@ import advertisement from '../components/advertisement'
       display: block;
       padding: 0 1rem;
       margin: 1rem 0;
-      overflow: hidden;
     }
     .active-item p{
       margin: 0;
+      overflow: hidden;
     }
     .active-item img{
       width: 100%;
       border-radius: 0.3rem;
+      transition: all 0.3s;
     }
-    .active{
+    .endactive{
       position: relative;
     }
-    .active::after{
+
+    .active-item:hover img{
+      transform: scale(1.2);
+    }
+    .endactive::after{
       content:'活动已结束';
       font-size: 18px;
       font-weight: 700;

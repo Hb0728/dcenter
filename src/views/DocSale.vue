@@ -10,7 +10,7 @@
             <el-button :class="saledocdate=='1'?'active':''" itemDate="1" size:large type="primary" @click="choosedate" plain>全部</el-button>
             <el-button :class="saledocdate=='2'?'active':''" itemDate="2" size:large type="primary" @click="choosedate" plain>一周内</el-button>
             <el-button :class="saledocdate=='3'?'active':''" itemDate="3" size:large type="primary" @click="choosedate" plain>一月内</el-button>
-            <el-button :class="saledocdate=='4'?'active':''" itemDate="4" size:large type="primary" @click="choosedate" plain>一年内</el-button>
+            <el-button :class="saledocdate=='4'?'active':''" itemDate="4" size:large type="primary" @click="choosedate" plain>半年内</el-button>
           </div>
         </el-col>
         <el-col :span="9">
@@ -37,7 +37,7 @@
   <div class='doc_list'>
       <div class="table-header">
         <el-row>
-            <el-col :span="12" style="text-align: start;">文档标题（当前账号的分成比例是50%）</el-col>
+            <el-col :span="12" style="text-align: start;">文档标题</el-col>
             <el-col :span="3"></el-col>
             <el-col :span="3">文档售价</el-col>
             <el-col :span="3">实际收益</el-col>
@@ -50,7 +50,7 @@
           <el-row v-if="doc_list_data!=''" v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
               <el-col :span="12" class="tt-box" style="text-align: start;">
                 <!-- <span :class="'icon-file icon-'+item.file_ext"></span> -->
-                <a href="item." class="text-dark" target="_blank" :href="item.titleurl">{{item.title}}</a>
+                <a class="title-hover" target="_blank" :href="'https://www.wenku365.com/p-'+item.modelid+'.html'">{{item.title}}</a>
               </el-col>
               <el-col :span="3"></el-col>
               <el-col :span="3">{{item.price}}</el-col>
@@ -100,11 +100,11 @@ const shortcuts = [
     },
   },
   {
-    text: '一年内',
+    text: '半年内',
     value: () => {
       const end = new Date()
       const start = new Date()
-      start.setTime(start.getTime() - 3600 * 1000 * 24 * 360)
+      start.setTime(start.getTime() - 3600 * 1000 * 24 * 182)
       return [start, end]
     },
   },
@@ -202,9 +202,11 @@ const shortcuts = [
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
+
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
+     
      this.getdoclist(false)
     },
     beforeCreate() {}, //生命周期 - 创建之前
@@ -273,8 +275,12 @@ const shortcuts = [
     .block .el-input__inner, .block .el-input__inner{
       border: 1px solid #333;
     }
-    .text-dark{
+    .title-hover{
       color:#2c3e50;
+    }
+    .title-hover:hover{
+      color:#2975DC;
+      text-decoration: underline;
     }
     .text-danger{
       color: #FF0000;

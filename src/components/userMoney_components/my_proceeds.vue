@@ -30,20 +30,20 @@
         </label>
         <label  for="">
            <div class="verifica_code-box">
-              <span class="boxname">图文验证码：</span><input type="text" @blur="blurverifica_code" v-model="verifica_code" placeholder="输入验证码">
+              <span class="boxname">图文验证码：</span><input type="text"  @blur="blurverifica_code" v-model="verifica_code" placeholder="输入验证码">
               <el-button class="verifica_code-img" @click="getvercode"><img :src="vercodeurl"  alt="点击获取验证码" style="min-width:60px"></el-button>
               <div :class="[noverifica_code ? 'write-false':'','false-tips']">请输入验证码</div>
            </div>
         </label>
         <input type="hidden" class="hiddenkey" v-model="hiddenkey">
         <label for="">
-           <span class="boxname">手机号：</span><input type="text" @blur="blurphonenum" v-model="phonenum" placeholder="输入您的收款账号">
+           <span class="boxname">手机号：</span><input type="text" readonly @blur="blurphonenum" v-model="phonenum" placeholder="输入您的收款账号">
            <div class="font-12 text-999 tips">如当前手机号无法使用请先换绑可用手机号</div>
            <div :class="[nophonenum ? 'write-false':'','false-tips']">请输入手机号</div>
         </label>
 
         <label for="">
-           <span class="boxname">验证码：</span><input type="text" placeholder="输入验证码" @blur="blurvcode" v-model="vcode" style="width: 130px;margin-right: 10px;"><el-button type="primary" style="width:90px;height: 37px;" @click="getphonecode" plain>{{btntext}}</el-button>
+           <span class="boxname">验证码：</span><input type="text" placeholder="输入验证码" @blur="blurvcode" v-model="vcode" style="width: 130px;margin-right: 10px;"><el-button type="primary" :disabled="btndisabled" style="width:90px;height: 37px;" @click="getphonecode" plain>{{btntext}}</el-button>
            <div :class="[novcode ? 'write-false':'','false-tips']">请输入验证码</div>
         </label>
         <label for="">
@@ -81,18 +81,46 @@ import { ElMessage } from 'element-plus'
         hiddenkey:'',
         vercodeurl:'',
         btntext:'获取验证码',
+        vcodetime:60,
+        btndisabled:false,
+        price:''
       };
     },
     computed: {
-      price(){
-        if(JSON.parse(window.localStorage.getItem('LOGIN_DATA'))){
-          return JSON.parse(window.localStorage.getItem('LOGIN_DATA')).data.money
-        }
-        return 0
-      }
+      
     },
     watch: {},
     methods: {
+      getUserData(){
+        let axiosdata={
+          access_token:this.$cookies.get('ttwk-login-access-token') ?this.$cookies.get('ttwk-login-access-token'): ''
+        }
+        const ajaxData = new FormData();
+        Object.keys(axiosdata).forEach((key) => {
+          ajaxData.append(key, axiosdata[key]);
+        });
+        let _this=this
+        axios.post('/api/oauth/base/get_user_info',ajaxData).then(res=>{
+          _this.price=res.data.data.money;
+          window.localStorage.setItem('LOGIN_DATA',JSON.stringify(res.data))
+        }).catch(error=>console.log(error))
+      },
+      timeoutcode(){
+        let timer=''
+        let _this =this
+        timer=setInterval(() => {
+          if(_this.vcodetime>0){
+            _this.btntext=_this.vcodetime+'秒后重试'
+            _this.btndisabled=true
+            _this.vcodetime--
+          }else{
+            clearInterval(timer)
+            _this.btndisabled=false
+            _this.btntext='获取验证码'
+            _this.vcodetime=60
+          }
+        }, 1000);
+      },
       getvercode(){
         let _this=this
         axios.post('/api/oauth/base/get_captcha').then(
@@ -161,6 +189,7 @@ import { ElMessage } from 'element-plus'
             formData.append(key, params[key]);
           });
           axios.post('/api/oauth/app_sms/get_sms_code',formData).then(res=>{
+            _this.timeoutcode();
             ElMessage({
               message: res.data.msg,
               type: 'success',
@@ -195,7 +224,9 @@ import { ElMessage } from 'element-plus'
             ElMessage({
               message: res.data.msg,
               type: 'success',
-            }).catch(error=>{
+            })
+            window.location.reload()
+            .catch(error=>{
             _this.getvercode();
           })
           })
@@ -208,7 +239,13 @@ import { ElMessage } from 'element-plus'
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
+      this.getUserData()
       this.getvercode()
+      let LOGIN_DATA=JSON.parse(window.localStorage.getItem('LOGIN_DATA'))
+      if(LOGIN_DATA!=null&&LOGIN_DATA!=''){
+        this.phonenum=LOGIN_DATA.data.phone
+      }
+      
     },
     beforeCreate() {}, //生命周期 - 创建之前
     beforeMount() {}, //生命周期 - 挂载之前
