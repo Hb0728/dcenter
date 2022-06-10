@@ -102,7 +102,6 @@ import { ElMessage } from 'element-plus'
         let _this=this
         axios.post('/api/oauth/base/get_user_info',ajaxData).then(res=>{
           _this.price=res.data.data.money;
-          window.localStorage.setItem('LOGIN_DATA',JSON.stringify(res.data))
         }).catch(error=>console.log(error))
       },
       timeoutcode(){

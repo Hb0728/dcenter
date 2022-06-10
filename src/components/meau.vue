@@ -35,12 +35,12 @@
             <span>文档管理</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess">发布成功<span v-if="$store.state.sendSuccessTotal!=''">{{'（'+$store.state.sendSuccessTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/waitSend"><router-link to="/waitSend">待发布<span v-if="$store.state.waitSendTotal!=''">{{'（'+$store.state.waitSendTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/waitPending"><router-link to="/waitPending">待审核<span v-if="$store.state.waitPendingTotal!=''">{{'（'+$store.state.waitPendingTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/failPending"><router-link to="/failPending">审核失败<span v-if="$store.state.failPendingTotal!=''">{{'（'+$store.state.failPendingTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/failchange"><router-link to="/failchange">转换失败<span v-if="$store.state.failchangeTotal!=''">{{'（'+$store.state.failchangeTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/recycleStation"><router-link to="/recycleStation">回收站<span v-if="$store.state.recycleStationTotal!=''">{{'（'+$store.state.recycleStationTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess">发布成功<span v-if="sendSuccessTotal!=''">{{'（'+sendSuccessTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/waitSend"><router-link to="/waitSend">待发布<span v-if="waitSendTotal!=''">{{'（'+waitSendTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/waitPending"><router-link to="/waitPending">待审核<span v-if="waitPendingTotal!=''">{{'（'+waitPendingTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/failPending"><router-link to="/failPending">审核失败<span v-if="failPendingTotal!=''">{{'（'+failPendingTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/failchange"><router-link to="/failchange">转换失败<span v-if="failchangeTotal!=''">{{'（'+failchangeTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/recycleStation"><router-link to="/recycleStation">回收站<span v-if="recycleStationTotal!=''">{{'（'+recycleStationTotal+'）'}}</span></router-link></el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-menu-item index="5">
@@ -76,6 +76,61 @@ import router from '../router';
       };
     },
     computed: {
+      recycleStationTotal(){
+        if(JSON.parse(window.localStorage.getItem('recycleStationTotal'))){
+          return JSON.parse(window.localStorage.getItem('recycleStationTotal'))
+        }else if(this.$store.state.recycleStationTotal!=''){
+          return this.$store.state.recycleStationTotal
+        }else{
+          return ''
+        }
+      },
+      sendSuccessTotal(){
+        if(JSON.parse(window.localStorage.getItem('sendSuccessTotal'))){
+          return JSON.parse(window.localStorage.getItem('sendSuccessTotal'))
+        }else if(this.$store.state.sendSuccessTotal!=''){
+          return this.$store.state.sendSuccessTotal
+        }else{
+          return ''
+        }
+      },
+      waitSendTotal(){
+        if(JSON.parse(window.localStorage.getItem('waitSendTotal'))){
+          return JSON.parse(window.localStorage.getItem('waitSendTotal'))
+        }else if(this.$store.state.waitSendTotal!=''){
+          return this.$store.state.waitSendTotal
+        }else{
+          return ''
+        }
+      },
+      waitPendingTotal(){
+        if(JSON.parse(window.localStorage.getItem('waitPendingTotal'))){
+          return JSON.parse(window.localStorage.getItem('waitPendingTotal'))
+        }else if(this.$store.state.waitPendingTotal!=''){
+          return this.$store.state.waitPendingTotal
+        }else{
+          return ''
+        }
+      },
+      failPendingTotal(){
+        if(JSON.parse(window.localStorage.getItem('failPendingTotal'))){
+          return JSON.parse(window.localStorage.getItem('failPendingTotal'))
+        }else if(this.$store.state.failPendingTotal!=''){
+          return this.$store.state.failPendingTotal
+        }else{
+          return ''
+        }
+      },
+      failchangeTotal(){
+        if(JSON.parse(window.localStorage.getItem('failchangeTotal'))){
+          return JSON.parse(window.localStorage.getItem('failchangeTotal'))
+        }else if(this.$store.state.failchangeTotal!=''){
+          return this.$store.state.failchangeTotal
+        }else{
+          return ''
+        }
+      },
+      
     },
     watch: {},
     methods: {
