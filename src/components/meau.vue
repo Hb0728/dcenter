@@ -15,42 +15,42 @@
         <el-menu-item index="/">
           <template #title>
             <router-link to="/">
-            <span>首页</span>
+            <span class="d-flex"><img src="../assets/img/index.svg" class="mr-2" width="20" alt=""><span>首页</span></span>
             </router-link>
           </template>
           
         </el-menu-item>
         <el-menu-item index="/DataProfiling">
             <router-link to="/DataProfiling">
-              <span>数据概况</span>
+              <span class="d-flex"><img src="../assets/img/DataProfiling.svg" class="mr-2" width="20" alt=""><span>数据概况</span></span>
             </router-link>
         </el-menu-item>
         <el-menu-item index="/ActivityCenter">
             <router-link to="/ActivityCenter">
-              <span>活动中心</span>
+              <span class="d-flex"><img src="../assets/img/ActivityCenter.svg" class="mr-2" width="20" alt=""><span>活动中心</span></span>
             </router-link>
         </el-menu-item>
         <el-sub-menu index="4">
           <template #title>
-            <span>文档管理</span>
+            <span class="d-flex"><img src="../assets/img/DocManger.svg" class="mr-2" width="20" alt=""><span>文档管理</span></span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess">发布成功<span v-if="sendSuccessTotal!=''">{{'（'+sendSuccessTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/waitSend"><router-link to="/waitSend">待发布<span v-if="waitSendTotal!=''">{{'（'+waitSendTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/waitPending"><router-link to="/waitPending">待审核<span v-if="waitPendingTotal!=''">{{'（'+waitPendingTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/failPending"><router-link to="/failPending">审核失败<span v-if="failPendingTotal!=''">{{'（'+failPendingTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/failchange"><router-link to="/failchange">转换失败<span v-if="failchangeTotal!=''">{{'（'+failchangeTotal+'）'}}</span></router-link></el-menu-item>
-            <el-menu-item index="/recycleStation"><router-link to="/recycleStation">回收站<span v-if="recycleStationTotal!=''">{{'（'+recycleStationTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/sendsuccess"><router-link to="/sendsuccess"><span class="ml-30">发布成功</span><span v-if="sendSuccessTotal!=''">{{'（'+sendSuccessTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/waitSend"><router-link to="/waitSend"><span class="ml-30">待发布</span><span v-if="waitSendTotal!=''">{{'（'+waitSendTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/waitPending"><router-link to="/waitPending"><span class="ml-30">待审核</span><span v-if="waitPendingTotal!=''">{{'（'+waitPendingTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/failPending"><router-link to="/failPending"><span class="ml-30">审核失败</span><span v-if="failPendingTotal!=''">{{'（'+failPendingTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/failchange"><router-link to="/failchange"><span class="ml-30">转换失败</span><span v-if="failchangeTotal!=''">{{'（'+failchangeTotal+'）'}}</span></router-link></el-menu-item>
+            <el-menu-item index="/recycleStation"><router-link to="/recycleStation"><span class="ml-30">回收站</span><span v-if="recycleStationTotal!=''">{{'（'+recycleStationTotal+'）'}}</span></router-link></el-menu-item>
           </el-menu-item-group>
         </el-sub-menu>
         <el-menu-item index="5">
             <router-link to="/DocSale">
-              <span>文档出售明细</span>
+              <span class="d-flex"><img src="../assets/img/DocSale.svg"  class="mr-2" width="20" alt=""><span>文档出售明细</span></span>
             </router-link>
         </el-menu-item>
         <el-menu-item index="6">
             <router-link to="/UserMoney">
-                <span>收益提现</span>
+                <span class="d-flex"><img src="../assets/img/UserMoney.svg" class="mr-2" width="20" alt=""><span>收益提现</span></span>
             </router-link>
         </el-menu-item>
       </el-menu>
@@ -77,55 +77,55 @@ import router from '../router';
     },
     computed: {
       recycleStationTotal(){
-        if(JSON.parse(window.localStorage.getItem('recycleStationTotal'))){
-          return JSON.parse(window.localStorage.getItem('recycleStationTotal'))
-        }else if(this.$store.state.recycleStationTotal!=''){
+        if(this.$store.state.recycleStationTotal!=''){
           return this.$store.state.recycleStationTotal
+        }else if(JSON.parse(window.localStorage.getItem('recycleStationTotal'))){
+          return JSON.parse(window.localStorage.getItem('recycleStationTotal'))
         }else{
           return ''
         }
       },
       sendSuccessTotal(){
-        if(JSON.parse(window.localStorage.getItem('sendSuccessTotal'))){
-          return JSON.parse(window.localStorage.getItem('sendSuccessTotal'))
-        }else if(this.$store.state.sendSuccessTotal!=''){
+        if(this.$store.state.sendSuccessTotal!=''){
           return this.$store.state.sendSuccessTotal
-        }else{
+        }else if(JSON.parse(window.localStorage.getItem('sendSuccessTotal'))){
+          return JSON.parse(window.localStorage.getItem('sendSuccessTotal'))
+        } else{
           return ''
         }
       },
       waitSendTotal(){
-        if(JSON.parse(window.localStorage.getItem('waitSendTotal'))){
-          return JSON.parse(window.localStorage.getItem('waitSendTotal'))
-        }else if(this.$store.state.waitSendTotal!=''){
+        if(this.$store.state.waitSendTotal!=''){
           return this.$store.state.waitSendTotal
+        }else if(JSON.parse(window.localStorage.getItem('waitSendTotal'))){
+          return JSON.parse(window.localStorage.getItem('waitSendTotal'))
         }else{
           return ''
         }
       },
       waitPendingTotal(){
-        if(JSON.parse(window.localStorage.getItem('waitPendingTotal'))){
-          return JSON.parse(window.localStorage.getItem('waitPendingTotal'))
-        }else if(this.$store.state.waitPendingTotal!=''){
+        if(this.$store.state.waitPendingTotal!=''){
           return this.$store.state.waitPendingTotal
+        }else if(JSON.parse(window.localStorage.getItem('waitPendingTotal'))){
+          return JSON.parse(window.localStorage.getItem('waitPendingTotal'))
         }else{
           return ''
         }
       },
       failPendingTotal(){
-        if(JSON.parse(window.localStorage.getItem('failPendingTotal'))){
-          return JSON.parse(window.localStorage.getItem('failPendingTotal'))
-        }else if(this.$store.state.failPendingTotal!=''){
+        if(this.$store.state.failPendingTotal!=''){
           return this.$store.state.failPendingTotal
+        }else if(JSON.parse(window.localStorage.getItem('failPendingTotal'))){
+          return JSON.parse(window.localStorage.getItem('failPendingTotal'))
         }else{
           return ''
         }
       },
       failchangeTotal(){
-        if(JSON.parse(window.localStorage.getItem('failchangeTotal'))){
-          return JSON.parse(window.localStorage.getItem('failchangeTotal'))
-        }else if(this.$store.state.failchangeTotal!=''){
+        if(this.$store.state.failchangeTotal!=''){
           return this.$store.state.failchangeTotal
+        }else if(JSON.parse(window.localStorage.getItem('failchangeTotal'))){
+          return JSON.parse(window.localStorage.getItem('failchangeTotal'))
         }else{
           return ''
         }
@@ -134,12 +134,7 @@ import router from '../router';
     },
     watch: {},
     methods: {
-      go(path, index) {
-        this.navIndex = index;
-        router.push({
-          
-        })
-      }
+      
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
@@ -161,6 +156,16 @@ import router from '../router';
 }
 </script>
 <style scoped>
+  .d-flex{
+    display:flex;
+
+  }
+  .mr-2{
+    margin-right:8px
+  }
+  .ml-30{
+    margin-left:28px
+  }
   .el-menu-item{
     padding-left: 0!important;
     padding-right: 0!important;

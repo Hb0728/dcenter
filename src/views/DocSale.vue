@@ -47,16 +47,18 @@
       
       <div class="doc-list-item" v-loading="loading">
           <el-empty description="" v-if="doc_list_data==''" />
-          <el-row v-if="doc_list_data!=''" v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
-              <el-col :span="12" class="tt-box" style="text-align: start;">
-                <!-- <span :class="'icon-file icon-'+item.file_ext"></span> -->
-                <a class="title-hover" target="_blank" :href="'https://www.wenku365.com/p-'+item.modelid+'.html'">{{item.title}}</a>
-              </el-col>
-              <el-col :span="3"></el-col>
-              <el-col :span="3">{{item.price}}</el-col>
-              <el-col :span="3" class="text-danger">{{item.money}}</el-col>
-              <el-col :span="3">{{item.logtruetime}}</el-col>
-          </el-row>
+          <div v-if="doc_list_data!=''">
+            <el-row v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
+                <el-col :span="12" class="tt-box" style="text-align: start;">
+                  <!-- <span :class="'icon-file icon-'+item.file_ext"></span> -->
+                  <a class="title-hover" target="_blank" :href="'https://www.wenku365.com/p-'+item.modelid+'.html'">{{item.title}}</a>
+                </el-col>
+                <el-col :span="3"></el-col>
+                <el-col :span="3">{{item.price}}</el-col>
+                <el-col :span="3" class="text-danger">{{item.money}}</el-col>
+                <el-col :span="3">{{item.logtruetime}}</el-col>
+            </el-row>
+          </div>
       </div>
       <div class="demo-pagination-block" v-if="doc_list_data!=''" v-loading="loading">
         <el-pagination

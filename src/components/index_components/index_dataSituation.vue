@@ -15,7 +15,7 @@
         <el-col :span="6">
          <div class="text-999"> 今日可上传</div>
          <p class="font-28">{{uploadNum}}</p>
-         <a href="https://www.wenku365.com/ucenter/member/user_upload.html"  class="line-a">去上传</a>
+         <a href="https://www.wenku365.com/ucenter/upload/#/uploading/index"  class="line-a">去上传</a>
         </el-col>
         <el-col :span="6">
          <div class="text-999"> 待审核文档</div>

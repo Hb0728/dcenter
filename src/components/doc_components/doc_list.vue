@@ -12,13 +12,15 @@
       
       <div class="doc-list-item" v-loading="loading">
           <el-empty description="" v-if="doc_list_data==''" />
-          <el-row v-if="doc_list_data!=''" v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
-              <el-col :span="11" class="tt-box" style="text-align: start;"><span :class="'icon-file icon-'+item.file_ext"></span><a class="title-hover text-ellipsis" target="_blank" :href="item.titleurl">{{item.title}}</a></el-col>
-              <el-col class="text-danger" :span="4">{{item.status_check_desc}}</el-col>
-              <el-col :span="3" class="text-yellow">{{item.userfen}}元</el-col>
-              <el-col :span="3">{{item.file_size}}</el-col>
-              <el-col :span="3">{{item.truetime}}</el-col>
-          </el-row>
+          <div v-if="doc_list_data!=''">
+            <el-row  v-for="item in doc_list_data" class="el-row dashed-bottom " :key="item" >
+                <el-col :span="11" class="tt-box" style="text-align: start;"><span :class="'icon-file icon-'+item.file_ext"></span><a class="title-hover text-ellipsis" target="_blank" :href="item.titleurl">{{item.title}}</a></el-col>
+                <el-col class="text-danger" :span="4">{{item.status_check_desc}}</el-col>
+                <el-col :span="3" class="text-yellow">{{item.userfen}}元</el-col>
+                <el-col :span="3">{{item.file_size}}</el-col>
+                <el-col :span="3">{{item.truetime}}</el-col>
+            </el-row>
+          </div>
       </div>
       <div class="demo-pagination-block" v-if="doc_list_data!=''">
         <el-pagination
@@ -73,6 +75,7 @@ const disabled = ref(false)
     },
 //生命周期 - 创建完成（可以访问当前this实例）
     created() {
+      
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {

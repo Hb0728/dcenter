@@ -15,7 +15,8 @@ import axios from '../../axios'
   export default {
     name :'web_msg',
     components: {
-      
+
+
     },
     data() {
       return {
@@ -24,7 +25,7 @@ import axios from '../../axios'
       };
     },
     computed: {
-      
+    //   
     },
     watch: {
 
