@@ -8,10 +8,10 @@
               <el-col :span="9">总收益</el-col>
           </el-row>
       </div>
-      <el-row v-for="(item,index) in raking" key="item" data-type="raking">
+      <el-row v-for="(item,index) in raking" :key="item" data-type="raking">
           <el-col :span="6" ><div data-type="raking-num">{{index+1}}</div></el-col>
-          <el-col :span="9">{{item.username}}</el-col>
-          <el-col :span="9" data-type="raking-price">￥{{item.income}}</el-col>
+          <el-col class="font-14" :span="9">{{item.username}}</el-col>
+          <el-col class="font-14" :span="9" data-type="raking-price">￥{{item.income}}</el-col>
       </el-row>
   </div>
 </template>
@@ -71,8 +71,11 @@ import axios from '../../axios'
         /* box-shadow: 0 0 10px #999; */
         padding: 1.5rem;
         margin-left: 1rem;
-        min-height: 447px;
+        min-height: 452px;
         margin-bottom:0.5rem
+    }
+    .font-14{
+        font-size:14px
     }
     .day_raking h3{
       text-align: start;

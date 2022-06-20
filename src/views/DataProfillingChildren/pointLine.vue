@@ -173,6 +173,7 @@ import axios from '../../axios'
     },
 //生命周期 - 挂载完成（可以访问DOM元素）
     mounted() {
+      document.getElementById("pointLine-pic").removeAttribute('_echarts_instance_');
       this.getdata(true);
       
     },
